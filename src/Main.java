@@ -18,10 +18,10 @@ public class Main{
         });
 
         frame.pack();
+        frame.setSize(750, 150);
         frame.setVisible(true);
     }
 }
 
-//TODO: ostylować wszystko, więcej kategorii (paczka i abstract class)
 
 

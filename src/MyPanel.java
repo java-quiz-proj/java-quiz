@@ -1,5 +1,4 @@
 import questions.*;
-import questions.Questions;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -14,7 +13,7 @@ import java.awt.Color;
 public class MyPanel extends JPanel {
     private int points;
     private JLabel questionLabel, pointsLabel, endScore;
-    private JButton buttonA, buttonB, buttonC, buttonD, restart, chooseCat;
+    private JButton buttonA, buttonB, buttonC, buttonD, chooseCat;
 
     private List<Integer> qnr = new ArrayList<>();
     private int questionNr;
@@ -82,9 +81,7 @@ public class MyPanel extends JPanel {
                 }
 
                 if(questionNr<questions.getQuestions().size()) {
-
                     newQuestion(questions);
-
                 }
                 else questionLabel.setText("koniec pytań");
 
@@ -98,16 +95,21 @@ public class MyPanel extends JPanel {
                 buttonC.setEnabled(true);
                 buttonD.setEnabled(true);
 
-
-
             }
-        }, 2000); // wywołanie po 2 sekundach
+        }, 2000);
 
         //checking if the answer is correct or not
         answerCheck(questions, answer, btn);
     }
 
     private void end(){
+
+        chooseCat = new JButton("Wybierz kategorię");
+        endScore = new JLabel("Gratulacje, zdobywasz "+points+" punktów!");
+        setLayout(new GridLayout(8, 1));
+        add(endScore, 0);
+        add(chooseCat, 1);
+
         questionLabel.setVisible(false);
         pointsLabel.setVisible(false);
         buttonA.setVisible(false);
@@ -115,26 +117,17 @@ public class MyPanel extends JPanel {
         buttonC.setVisible(false);
         buttonD.setVisible(false);
 
-//        restart = new JButton("play again");
-        chooseCat = new JButton("Wybierz kategorię");
-        endScore = new JLabel("Gratulacje, zdobywasz "+points+" punktów!");
-        add(endScore);
-//        add(restart);
-        add(chooseCat);
-
         chooseCat.addActionListener(e->{
-            chooseCat.setVisible(false);
-//            restart.setVisible(false);
-            endScore.setVisible(false);
+            remove(questionLabel);
+            remove(pointsLabel);
+            remove(buttonA);
+            remove(buttonB);
+            remove(buttonC);
+            remove(buttonD);
+            remove(chooseCat);
+            remove(endScore);
             Category.chooseCat();
         });
-
-//        restart.addActionListener(e->{
-//            chooseCat.setVisible(false);
-//            restart.setVisible(false);
-//            endScore.setVisible(false);
-//            Category cat = new Category();
-//        });
     }
 
     private void newQuestion(Questions questions){
