@@ -22,6 +22,6 @@ public class Main{
     }
 }
 
-//TODO: przycisk nowej gry, może pytania i odpowiedzi brać z pliku .txt, ostylować wszystko
+//TODO: ostylować wszystko, więcej kategorii (paczka i abstract class)
 
 
