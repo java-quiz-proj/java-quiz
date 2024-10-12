@@ -3,7 +3,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
 import java.util.Timer;
@@ -11,15 +10,15 @@ import java.util.TimerTask;
 import java.awt.Color;
 public class MyPanel extends JPanel {
     private int points;
-    private JLabel questionLabel, pointsLabel;
-    private JButton buttonA, buttonB, buttonC, buttonD;
-    //poniższa lista zawierać będzie liczby odpowiadające numorowi pytań
+    private JLabel questionLabel, pointsLabel, endScore;
+    private JButton buttonA, buttonB, buttonC, buttonD, restart, chooseCat;
+
     private List<Integer> qnr = new ArrayList<>();
     private int questionNr;
     public MyPanel() {
         points = 0;
         questionLabel = new JLabel("" + questionNr);
-        pointsLabel = new JLabel("score: " + points);
+        pointsLabel = new JLabel("wynik: " + points);
         buttonA = new JButton("");
         buttonB = new JButton("");
         buttonC = new JButton("");
@@ -66,6 +65,11 @@ public class MyPanel extends JPanel {
             @Override
             public void run() {
 
+                //end game if out of questions
+                if(questionNr==questions.getQuestions().size()) {
+                    end();
+                }
+
                 if(questionNr<questions.getQuestions().size()) {
 
                     newQuestion(questions);
@@ -83,11 +87,43 @@ public class MyPanel extends JPanel {
                 buttonC.setEnabled(true);
                 buttonD.setEnabled(true);
 
+
+
             }
         }, 2000); // wywołanie po 2 sekundach
 
         //checking if the answer is correct or not
         answerCheck(questions, answer, btn);
+    }
+
+    private void end(){
+        questionLabel.setVisible(false);
+        pointsLabel.setVisible(false);
+        buttonA.setVisible(false);
+        buttonB.setVisible(false);
+        buttonC.setVisible(false);
+        buttonD.setVisible(false);
+
+//        restart = new JButton("play again");
+        chooseCat = new JButton("Wybierz kategorię");
+        endScore = new JLabel("Gratulacje, zdobywasz "+points+" punktów!");
+        add(endScore);
+//        add(restart);
+        add(chooseCat);
+
+        chooseCat.addActionListener(e->{
+            chooseCat.setVisible(false);
+//            restart.setVisible(false);
+            endScore.setVisible(false);
+            Category.chooseCat();
+        });
+
+//        restart.addActionListener(e->{
+//            chooseCat.setVisible(false);
+//            restart.setVisible(false);
+//            endScore.setVisible(false);
+//            Category cat = new Category();
+//        });
     }
 
     private void newQuestion(Questions questions){
@@ -116,7 +152,7 @@ public class MyPanel extends JPanel {
         if(questionNr!=0){
             if(answer.equals(questions.getCorrectAnswers().get(qnr.get(questionNr-1)))) {
                 points++;
-                pointsLabel.setText("score: " + points);
+                pointsLabel.setText("wynik: " + points);
 
                 switch(btn){
                     case "A" -> buttonA.setBackground(new Color(0, 255, 0));
