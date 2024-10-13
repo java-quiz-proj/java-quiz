@@ -19,7 +19,6 @@ public class Animals extends Question implements Category {
 
     @Override
     public List<String> getAnswers(int n) {
-        System.out.println(answers);
         return answers.get(n); // Uzyskiwanie odpowiedzi 1
     }
 
