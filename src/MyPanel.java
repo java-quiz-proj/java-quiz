@@ -38,7 +38,7 @@ public class MyPanel extends JPanel {
             case "animals" -> currentCategoryQuestions = new Animals();
             case "history" -> currentCategoryQuestions = new History();
         }
-
+        
         // Dodanie indeksów pytań do listy i ich przetasowanie
         for (int i = 0; i < currentCategoryQuestions.getQuestions().size(); i++) {
             shuffledQuestionsIndices.add(i);
@@ -70,7 +70,7 @@ public class MyPanel extends JPanel {
         add(buttonB);
         add(buttonC);
         add(buttonD);
-
+        
         // Wywołanie metody do załadowania pierwszego pytania
         loadNewQuestion(currentCategoryQuestions);
     }
@@ -147,14 +147,10 @@ public class MyPanel extends JPanel {
             questionLabel.setText("Brak pytań do wyświetlenia.");
             return;
         }
-
+        System.out.println(currentQuestionIndex);
         // Pobieranie odpowiedzi i mieszanie ich kolejności
         List<String> answers = new ArrayList<>();
-        answers.add(questions.getAnswers1().get(shuffledQuestionsIndices.get(currentQuestionIndex)));
-        answers.add(questions.getAnswers2().get(shuffledQuestionsIndices.get(currentQuestionIndex)));
-        answers.add(questions.getAnswers3().get(shuffledQuestionsIndices.get(currentQuestionIndex)));
-        answers.add(questions.getAnswers4().get(shuffledQuestionsIndices.get(currentQuestionIndex)));
-
+        answers = questions.getAnswers(shuffledQuestionsIndices.get(currentQuestionIndex));
         Collections.shuffle(answers);  // Przetasowanie odpowiedzi
 
         // Ustawienie nowego pytania i odpowiedzi na przyciskach

@@ -17,23 +17,8 @@ public class Maths extends Question implements Category {
     }
 
     @Override
-    public List<String> getAnswers1() {
-        return answers1; // Uzyskiwanie odpowiedzi 1
-    }
-
-    @Override
-    public List<String> getAnswers2() {
-        return answers2; // Uzyskiwanie odpowiedzi 2
-    }
-
-    @Override
-    public List<String> getAnswers3() {
-        return answers3; // Uzyskiwanie odpowiedzi 3
-    }
-
-    @Override
-    public List<String> getAnswers4() {
-        return answers4; // Uzyskiwanie odpowiedzi 4
+    public List<String> getAnswers(int n) {
+        return answers.get(n); // Uzyskiwanie odpowiedzi 1
     }
 
     @Override

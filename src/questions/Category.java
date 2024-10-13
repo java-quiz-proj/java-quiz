@@ -11,12 +11,6 @@ public interface Category {
 
          String getQuestion(int n);
 
-         List<String> getAnswers1();
-
-         List<String> getAnswers2();
-
-         List<String> getAnswers3();
-
-         List<String> getAnswers4();
+         List<String> getAnswers(int n);
 
 }

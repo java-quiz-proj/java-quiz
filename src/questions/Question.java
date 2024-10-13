@@ -9,18 +9,12 @@ import java.util.List;
 public abstract class Question {
     protected List<String> questions;
     protected List<String> correctAnswers;
-    protected List<String> answers1;
-    protected List<String> answers2;
-    protected List<String> answers3;
-    protected List<String> answers4;
+    protected List<List<String>> answers;
 
     public Question() {
         questions = new ArrayList<>();
         correctAnswers = new ArrayList<>();
-        answers1 = new ArrayList<>();
-        answers2 = new ArrayList<>();
-        answers3 = new ArrayList<>();
-        answers4 = new ArrayList<>();
+        answers = new ArrayList<>();
     }
 
     // Metoda do ładowania pytań z pliku
@@ -62,10 +56,14 @@ public abstract class Question {
         private void addQuestion(String[] parts) {
             questions.add(parts[0]); // Pytanie
             correctAnswers.add(parts[1]); // Poprawna odpowiedź
-            answers1.add(parts[2]); // Odpowiedź 1
-            answers2.add(parts[3]); // Odpowiedź 2
-            answers3.add(parts[4]); // Odpowiedź 3
-            answers4.add(parts[5]); // Odpowiedź 4
+
+            // Dodaj wszystkie odpowiedzi (parts[2], .. parts[5])
+            List<String> currAnswers = new ArrayList<>();
+            for (int i = 2; i < parts.length; i++) {
+                currAnswers.add(parts[i]);
+            }
+            System.out.println(currAnswers);
+            answers.add(currAnswers);
 
             // Wypisywanie do konsoli
             System.out.println("Pobrano pytanie: " + parts[0]);
