@@ -1,4 +1,4 @@
-import questions.*;
+import questions.*;  // Importuje wszystkie klasy z pakietu questions
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -10,81 +10,91 @@ import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.Color;
-public class MyPanel extends JPanel {
-    private int points;
-    private JLabel questionLabel, pointsLabel, endScore;
-    private JButton buttonA, buttonB, buttonC, buttonD, chooseCat;
 
-    private List<Integer> qnr = new ArrayList<>();
-    private int questionNr;
-    private Questions questions;
-    public MyPanel(String cat) {
-        points = 0;
-        questionLabel = new JLabel("" + questionNr);
-        pointsLabel = new JLabel("wynik: " + points);
-        buttonA = new JButton("");
+public class MyPanel extends JPanel {
+    private int score;  // Zmienna przechowująca wynik gracza
+    private JLabel questionLabel, scoreLabel, endScoreLabel;  // Etykiety do wyświetlania pytania, wyniku oraz końcowego wyniku
+    private JButton buttonA, buttonB, buttonC, buttonD, chooseCategoryButton;  // Przyciski do wyboru odpowiedzi oraz powrotu do wyboru kategorii
+
+    private List<Integer> shuffledQuestionsIndices = new ArrayList<>();  // Lista z indeksami pytań, które zostaną losowo przetasowane
+    private int currentQuestionIndex;  // Numer aktualnego pytania
+    private Questions currentCategoryQuestions;  // Obiekt zawierający pytania z wybranej kategorii
+
+    public MyPanel(String category) {
+        score = 0;  // Inicjalizacja wyniku na 0
+        questionLabel = new JLabel("" + currentQuestionIndex);  // Etykieta pytania (początkowo pusta)
+        scoreLabel = new JLabel("Wynik: " + score);  // Etykieta z wynikiem
+        buttonA = new JButton("");  // Inicjalizacja przycisków do odpowiedzi
         buttonB = new JButton("");
         buttonC = new JButton("");
         buttonD = new JButton("");
 
-        questionNr = 0;
+        currentQuestionIndex = 0;  // Ustawienie początkowego pytania na pierwsze
 
-        switch(cat){
-            case "maths" ->  questions = new Maths();
-            case "geography" -> questions = new Geography();
-            case "animals" -> questions = new Animals();
-            case "history" -> questions = new History();
+        // Wybór kategorii pytań w zależności od podanego argumentu (polimorfizm)
+        switch (category) {
+            case "maths" -> currentCategoryQuestions = new Maths();
+            case "geography" -> currentCategoryQuestions = new Geography();
+            case "animals" -> currentCategoryQuestions = new Animals();
+            case "history" -> currentCategoryQuestions = new History();
         }
 
-
-        for (int i = 0; i < questions.getQuestions().size(); i++) {
-            qnr.add(i);
+        // Dodanie indeksów pytań do listy i ich przetasowanie
+        for (int i = 0; i < currentCategoryQuestions.getQuestions().size(); i++) {
+            shuffledQuestionsIndices.add(i);
         }
-        Collections.shuffle(qnr);
+        Collections.shuffle(shuffledQuestionsIndices);  // Tasowanie pytań
 
+        // Dodanie ActionListenerów do przycisków odpowiedzi
         buttonA.addActionListener(e -> {
-            click(questions, buttonA.getText(), "A");
+            handleClick(currentCategoryQuestions, buttonA.getText(), "A");
         });
 
-        buttonB.addActionListener(e->{
-            click(questions, buttonB.getText(), "B");
+        buttonB.addActionListener(e -> {
+            handleClick(currentCategoryQuestions, buttonB.getText(), "B");
         });
 
-        buttonC.addActionListener(e->{
-            click(questions, buttonC.getText(), "C");
+        buttonC.addActionListener(e -> {
+            handleClick(currentCategoryQuestions, buttonC.getText(), "C");
         });
 
-        buttonD.addActionListener(e->{
-            click(questions, buttonD.getText(), "D");
+        buttonD.addActionListener(e -> {
+            handleClick(currentCategoryQuestions, buttonD.getText(), "D");
         });
 
+        // Dodanie elementów do panelu i ustawienie układu siatki
         add(questionLabel);
-        add(pointsLabel);
-        setLayout(new GridLayout(3, 2));
+        add(scoreLabel);
+        setLayout(new GridLayout(3, 2));  // Ustawienie GridLayout dla przycisków i etykiet
         add(buttonA);
         add(buttonB);
         add(buttonC);
         add(buttonD);
-        newQuestion(questions);
 
+        // Wywołanie metody do załadowania pierwszego pytania
+        loadNewQuestion(currentCategoryQuestions);
     }
 
-    private void click(Questions questions, String answer, String btn){
-        Timer timer = new Timer();
+    // Obsługa kliknięcia przycisku odpowiedzi
+    private void handleClick(Questions questions, String answer, String buttonId) {
+        Timer timer = new Timer();  // Tworzenie nowego timera, aby dodać opóźnienie między pytaniami
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
 
-                //end game if out of questions
-                if(questionNr==questions.getQuestions().size()) {
-                    end();
+                // Sprawdzenie, czy nie skończyły się pytania
+                if (currentQuestionIndex == questions.getQuestions().size()) {
+                    endQuiz();  // Zakończ grę, jeśli wszystkie pytania zostały wyświetlone
                 }
 
-                if(questionNr<questions.getQuestions().size()) {
-                    newQuestion(questions);
+                // Wczytanie nowego pytania, jeśli są jeszcze dostępne
+                if (currentQuestionIndex < questions.getQuestions().size()) {
+                    loadNewQuestion(questions);
+                } else {
+                    questionLabel.setText("Koniec pytań");  // Wyświetl informację o zakończeniu pytań
                 }
-                else questionLabel.setText("koniec pytań");
 
+                // Resetowanie kolorów i włączenie przycisków
                 buttonA.setBackground(null);
                 buttonB.setBackground(null);
                 buttonC.setBackground(null);
@@ -94,88 +104,98 @@ public class MyPanel extends JPanel {
                 buttonB.setEnabled(true);
                 buttonC.setEnabled(true);
                 buttonD.setEnabled(true);
-
             }
-        }, 2000);
+        }, 2000);  // Opóźnienie 2 sekundy
 
-        //checking if the answer is correct or not
-        answerCheck(questions, answer, btn);
+        // Sprawdzenie poprawności odpowiedzi
+        checkAnswer(questions, answer, buttonId);
     }
 
-    private void end(){
+    // Metoda do zakończenia quizu
+    private void endQuiz() {
+        chooseCategoryButton = new JButton("Wybierz kategorię");  // Przycisk do wyboru nowej kategorii
+        endScoreLabel = new JLabel("Gratulacje, zdobywasz " + score + " punktów!");  // Wyświetlenie końcowego wyniku
+        setLayout(new GridLayout(8, 1));  // Zmiana układu na więcej wierszy
+        add(endScoreLabel, 0);
+        add(chooseCategoryButton, 1);
 
-        chooseCat = new JButton("Wybierz kategorię");
-        endScore = new JLabel("Gratulacje, zdobywasz "+points+" punktów!");
-        setLayout(new GridLayout(8, 1));
-        add(endScore, 0);
-        add(chooseCat, 1);
-
+        // Ukrycie elementów związanych z pytaniami
         questionLabel.setVisible(false);
-        pointsLabel.setVisible(false);
+        scoreLabel.setVisible(false);
         buttonA.setVisible(false);
         buttonB.setVisible(false);
         buttonC.setVisible(false);
         buttonD.setVisible(false);
 
-        chooseCat.addActionListener(e->{
+        // Obsługa wyboru nowej kategorii po zakończeniu quizu
+        chooseCategoryButton.addActionListener(e -> {
             remove(questionLabel);
-            remove(pointsLabel);
+            remove(scoreLabel);
             remove(buttonA);
             remove(buttonB);
             remove(buttonC);
             remove(buttonD);
-            remove(chooseCat);
-            remove(endScore);
-            Category.chooseCat();
+            remove(chooseCategoryButton);
+            remove(endScoreLabel);
+            Category.chooseCat();  // Wywołanie metody do wyboru kategorii (prawdopodobnie z innej klasy)
         });
     }
 
-    private void newQuestion(Questions questions){
-        List<String> ans = new ArrayList<>();
-        ans.add(questions.getAnswers1().get(qnr.get(questionNr)));
-        ans.add(questions.getAnswers2().get(qnr.get(questionNr)));
-        ans.add(questions.getAnswers3().get(qnr.get(questionNr)));
-        ans.add(questions.getAnswers4().get(qnr.get(questionNr)));
+    // Metoda do załadowania nowego pytania
+    private void loadNewQuestion(Questions questions) {
+        // Pobieranie odpowiedzi i mieszanie ich kolejności
+        List<String> answers = new ArrayList<>();
+        answers.add(questions.getAnswers1().get(shuffledQuestionsIndices.get(currentQuestionIndex)));
+        answers.add(questions.getAnswers2().get(shuffledQuestionsIndices.get(currentQuestionIndex)));
+        answers.add(questions.getAnswers3().get(shuffledQuestionsIndices.get(currentQuestionIndex)));
+        answers.add(questions.getAnswers4().get(shuffledQuestionsIndices.get(currentQuestionIndex)));
 
-        Collections.shuffle(ans);
+        Collections.shuffle(answers);  // Przetasowanie odpowiedzi
 
-        questionLabel.setText(""+(questionNr+1)+". "+questions.getQuestion(qnr.get(questionNr)));
-        buttonA.setText(ans.get(0));
-        buttonB.setText(ans.get(1));
-        buttonC.setText(ans.get(2));
-        buttonD.setText(ans.get(3));
-        questionNr ++;
+        // Ustawienie nowego pytania i odpowiedzi na przyciskach
+        questionLabel.setText("" + (currentQuestionIndex + 1) + ". " + questions.getQuestion(shuffledQuestionsIndices.get(currentQuestionIndex)));
+        buttonA.setText(answers.get(0));
+        buttonB.setText(answers.get(1));
+        buttonC.setText(answers.get(2));
+        buttonD.setText(answers.get(3));
+
+        currentQuestionIndex++;  // Zwiększenie licznika pytań
     }
 
-    private void answerCheck(Questions questions, String answer, String btn){
+    // Metoda sprawdzająca poprawność odpowiedzi
+    private void checkAnswer(Questions questions, String answer, String buttonId) {
+        // Wyłączenie przycisków po wyborze odpowiedzi
         buttonA.setEnabled(false);
         buttonB.setEnabled(false);
         buttonC.setEnabled(false);
         buttonD.setEnabled(false);
 
-        if(questionNr!=0){
-            if(answer.equals(questions.getCorrectAnswers().get(qnr.get(questionNr-1)))) {
-                points++;
-                pointsLabel.setText("wynik: " + points);
+        // Jeśli to nie jest pierwsze pytanie
+        if (currentQuestionIndex != 0) {
+            // Sprawdzenie, czy odpowiedź jest poprawna
+            if (answer.equals(questions.getCorrectAnswers().get(shuffledQuestionsIndices.get(currentQuestionIndex - 1)))) {
+                score++;  // Zwiększenie wyniku
+                scoreLabel.setText("Wynik: " + score);  // Aktualizacja wyniku
 
-                switch(btn){
+                // Zmiana koloru odpowiedniego przycisku na zielony, jeśli odpowiedź jest poprawna
+                switch (buttonId) {
                     case "A" -> buttonA.setBackground(new Color(0, 255, 0));
                     case "B" -> buttonB.setBackground(new Color(0, 255, 0));
                     case "C" -> buttonC.setBackground(new Color(0, 255, 0));
                     case "D" -> buttonD.setBackground(new Color(0, 255, 0));
                 }
-            }else {
-
-                if(buttonA.getText().equals(questions.getCorrectAnswers().get(qnr.get(questionNr-1))))
+            } else {
+                // Jeśli odpowiedź jest błędna, zaznacz poprawną odpowiedź na zielono
+                if (buttonA.getText().equals(questions.getCorrectAnswers().get(shuffledQuestionsIndices.get(currentQuestionIndex - 1))))
                     buttonA.setBackground(new Color(0, 255, 0));
-                if(buttonB.getText().equals(questions.getCorrectAnswers().get(qnr.get(questionNr-1))))
+                if (buttonB.getText().equals(questions.getCorrectAnswers().get(shuffledQuestionsIndices.get(currentQuestionIndex - 1))))
                     buttonB.setBackground(new Color(0, 255, 0));
-                if(buttonC.getText().equals(questions.getCorrectAnswers().get(qnr.get(questionNr-1))))
+                if (buttonC.getText().equals(questions.getCorrectAnswers().get(shuffledQuestionsIndices.get(currentQuestionIndex - 1))))
                     buttonC.setBackground(new Color(0, 255, 0));
-                if(buttonD.getText().equals(questions.getCorrectAnswers().get(qnr.get(questionNr-1))))
+                if (buttonD.getText().equals(questions.getCorrectAnswers().get(shuffledQuestionsIndices.get(currentQuestionIndex - 1))))
                     buttonD.setBackground(new Color(0, 255, 0));
-
-                switch (btn) {
+                // Zmiana koloru przycisku na czerwony, jeśli odpowiedź jest błędna
+                switch (buttonId) {
                     case "A" -> buttonA.setBackground(new Color(255, 0, 0));
                     case "B" -> buttonB.setBackground(new Color(255, 0, 0));
                     case "C" -> buttonC.setBackground(new Color(255, 0, 0));
