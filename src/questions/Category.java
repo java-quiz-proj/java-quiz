@@ -2,7 +2,7 @@ package questions;
 
 import java.util.List;
 
-public interface Questions {
+public interface Category {
 
 
          List<String> getCorrectAnswers();

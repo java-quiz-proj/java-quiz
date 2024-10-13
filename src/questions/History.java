@@ -3,7 +3,7 @@ package questions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class History implements Questions{
+public class History implements Category {
 
     private List<String> questions = new ArrayList<>();
     private List<String> correctAnswers = new ArrayList<>();

@@ -2,7 +2,7 @@ package questions;
 
 import java.util.List;
 
-public class Animals extends AbstractQuestions implements Questions {
+public class Animals extends Question implements Category {
     public Animals() {
         loadQuestions("animals_questions.txt"); // Upewnij się, że plik jest w odpowiednim miejscu
     }

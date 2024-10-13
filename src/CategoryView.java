@@ -1,8 +1,8 @@
 import javax.swing.JButton;
 import javax.swing.JPanel;
-public class Category extends JPanel {
+public class CategoryView extends JPanel {
     private static JButton animals, maths, history, geography;
-    public Category(){
+    public CategoryView(){
         animals = new JButton("Zwierzęta");
         maths = new JButton("Matematyka");
         history = new JButton("Historia");

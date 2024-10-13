@@ -12,7 +12,7 @@ public class Main{
         frame.add(startBtn);
 
         startBtn.addActionListener(e -> {
-            Category category = new Category();
+            CategoryView category = new CategoryView();
             startBtn.setVisible(false);
             frame.add(category);
         });

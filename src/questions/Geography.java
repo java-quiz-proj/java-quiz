@@ -3,7 +3,7 @@ package questions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Geography implements Questions {
+public class Geography implements Category {
 
 
     private List<String> questions = new ArrayList<>();

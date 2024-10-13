@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractQuestions {
+public abstract class Question {
     protected List<String> questions;
     protected List<String> correctAnswers;
     protected List<String> answers1;
@@ -14,7 +14,7 @@ public abstract class AbstractQuestions {
     protected List<String> answers3;
     protected List<String> answers4;
 
-    public AbstractQuestions() {
+    public Question() {
         questions = new ArrayList<>();
         correctAnswers = new ArrayList<>();
         answers1 = new ArrayList<>();
