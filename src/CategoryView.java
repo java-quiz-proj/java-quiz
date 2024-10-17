@@ -1,5 +1,7 @@
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.awt.*;
+
 public class CategoryView extends JPanel {
     private static JButton animals, maths, history, geography;
     public CategoryView(){
@@ -28,6 +30,7 @@ public class CategoryView extends JPanel {
             addNewPanel("geography");
         });
 
+        //setLayout(new GridLayout(5, 1, 50, 15));  // Ustawienie GridLayout dla przycisków
     }
     private void addNewPanel(String cat){
         MyPanel panel = new MyPanel(cat);
