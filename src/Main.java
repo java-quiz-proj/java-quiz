@@ -12,16 +12,15 @@ public class Main{
         frame.add(startBtn);
 
         startBtn.addActionListener(e -> {
-            CategoryView category = new CategoryView();
             startBtn.setVisible(false);
-            frame.add(category);
+            LoginView loginView = new LoginView(frame);
+            frame.add(loginView);
         });
 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setSize(750, 150);
         frame.setVisible(true);
+
     }
 }
-
-
-

@@ -177,11 +177,7 @@ public class MyPanel extends JPanel {
                 scoreLabel.setText("Wynik: " + score);  // Aktualizacja wyniku
 
                 // Zmiana koloru odpowiedniego przycisku na zielony, jeśli odpowiedź jest poprawna
-                for (int i = 0; i < questions.getAnswers(index).size(); i++) {
-                    if (buttonId == i) {
-                        answerButtons.get(i).setBackground(new Color(0, 255, 0));
-                    }
-                }
+                answerButtons.get(buttonId).setBackground(new Color(0, 255, 0));
             } else {
                 // Jeśli odpowiedź jest błędna, zaznacz poprawną odpowiedź na zielono
                 for (int i = 0; i < questions.getAnswers(index).size(); i++) {
@@ -192,11 +188,7 @@ public class MyPanel extends JPanel {
                 }
 
                 // Zmiana koloru przycisku na czerwony, jeśli odpowiedź jest błędna
-                for (int i = 0; i < questions.getAnswers(index).size(); i++) {
-                    if (buttonId == i) {
-                        answerButtons.get(i).setBackground(new Color(255, 0, 0));
-                    }
-                }
+                answerButtons.get(buttonId).setBackground(new Color(255, 0, 0));
             }
         }
     }
