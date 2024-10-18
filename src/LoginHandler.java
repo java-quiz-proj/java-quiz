@@ -45,6 +45,7 @@ public class LoginHandler {
         loadUsers();
     }
 
+    @SuppressWarnings("unchecked")
     public void loadUsers() {
         File file = new File(this.filePath);
         if (!file.exists()) {

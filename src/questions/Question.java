@@ -23,6 +23,17 @@ public abstract class Question {
         loader.load(filePath);
     }
 
+    protected void addQuestion(String question, String correctAnswer, String... answersList) {
+        questions.add(question);
+        correctAnswers.add(correctAnswer);
+
+        List<String> currAnswers = new ArrayList<>();
+        for (String answer : answersList) {
+            currAnswers.add(answer);
+        }
+        answers.add(currAnswers);
+    }
+
     // Klasa wewnętrzna do ładowania pytań
     private class QuestionLoader {
         // Główna metoda do ładowania pytań
