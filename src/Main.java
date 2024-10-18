@@ -1,6 +1,7 @@
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class Main{
 
@@ -9,18 +10,23 @@ public class Main{
         JButton startBtn;
         JFrame frame = new JFrame("Quiz");
         startBtn = new JButton("START");
-        frame.add(startBtn);
+        JPanel panel = new JPanel();
+        frame.add(panel);
+        panel.add(startBtn);
 
         startBtn.addActionListener(e -> {
-            startBtn.setVisible(false);
+            panel.setVisible(false);
             LoginView loginView = new LoginView(frame);
             frame.add(loginView);
         });
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(750, 300);
+        frame.setSize(500, 300);
         frame.setVisible(true);
 
     }
 }
+
+
+
