@@ -30,7 +30,7 @@ public class CategoryView extends JPanel {
             addNewPanel("geography");
         });
 
-        //setLayout(new GridLayout(5, 1, 50, 15));  // Ustawienie GridLayout dla przycisków
+        setLayout(new GridLayout(4, 1, 50, 15));  // Ustawienie GridLayout dla przycisków
     }
     private void addNewPanel(String cat){
         MyPanel panel = new MyPanel(cat);
@@ -39,6 +39,7 @@ public class CategoryView extends JPanel {
         history.setVisible(false);
         geography.setVisible(false);
         add(panel);
+        setLayout(new FlowLayout());
     }
 
     public static void chooseCat(){
