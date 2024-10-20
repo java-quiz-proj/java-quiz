@@ -3,11 +3,21 @@ import report.*;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import java.awt.Font;
 import java.util.logging.Logger;
 
 public class Main{
 
     public static void main(String[] args) {
+        // Ustawienie czcionki
+        Font myFont = new Font ("Arial", Font.PLAIN, 24);
+        UIManager.put("Button.font", myFont);
+        UIManager.put("Label.font", myFont);
+        UIManager.put("Panel.font", myFont);
+        UIManager.put("PasswordField.font", myFont);
+        UIManager.put("TextField.font", myFont);
+
         Logger logger = ReportHandler.getLogger();
         logger.info("Program został uruchomiony.");
 
@@ -26,7 +36,7 @@ public class Main{
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(500, 300);
+        frame.setSize(640, 450);
         frame.setVisible(true);
     }
 }
