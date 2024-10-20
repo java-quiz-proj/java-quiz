@@ -1,36 +1,34 @@
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class ReportHandler {
-    private FileWriter reportWriter;
+    private static Logger logger;
 
-    public ReportHandler(String date) {
+    static {
         try {
-            // tworzenie pliku
-            File reportFile = new File("report_" + date + ".txt");
-            if (reportFile.createNewFile()) {
-                System.out.println("File created: " + reportFile.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
+            // Utwórz nową instancję logger
+            logger = Logger.getLogger("MyLog");
 
-            // tworzenie strumienia zapisu
-            reportWriter = new FileWriter("report_" + date + ".txt");
-            System.out.println("FileWriter created: " + reportFile.getName());
+            // Utwórz unikową nazwę pliku na podstawie obecnej daty i czasu
+            String timestamp = new SimpleDateFormat("yyyy/MM/dd_HH:mm:ss").format(new Date());
+            String logFileName = "report_" + timestamp + ".txt";
+
+            // Ustaw FileHandler by pisać do pliku
+            FileHandler fh = new FileHandler(logFileName);
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+
         } catch (IOException e) {
-            System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
 
-    public void writeMessage(String msg) {
-        try {
-            reportWriter.write(msg);
-            System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
+    public static Logger getLogger() {
+        return logger;
     }
 }

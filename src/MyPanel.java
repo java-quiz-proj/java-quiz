@@ -128,6 +128,7 @@ public class MyPanel extends JPanel {
         Collections.shuffle(answers);  // Przetasowanie odpowiedzi
         System.out.println(currentQuestionIndex + " " + answers);
 
+
         // Ustawienie nowego pytania i odpowiedzi na przyciskach
         questionLabel.setText("" + (currentQuestionIndex + 1) + ". " + questions.getQuestion(shuffledQuestionsIndices.get(currentQuestionIndex)));
 
