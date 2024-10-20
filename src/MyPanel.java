@@ -1,4 +1,5 @@
 import questions.*;  // Importuje wszystkie klasy z pakietu questions
+import report.*;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -11,6 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 public class MyPanel extends JPanel {
     private final int defaultAnswerAmount = 4;
@@ -126,7 +128,8 @@ public class MyPanel extends JPanel {
         List<String> answers = new ArrayList<>();
         answers = questions.getAnswers(shuffledQuestionsIndices.get(currentQuestionIndex));
         Collections.shuffle(answers);  // Przetasowanie odpowiedzi
-        System.out.println(currentQuestionIndex + " " + answers);
+        Logger logger = ReportHandler.getLogger();
+        logger.info(currentQuestionIndex + " " + answers);
 
 
         // Ustawienie nowego pytania i odpowiedzi na przyciskach
@@ -152,7 +155,7 @@ public class MyPanel extends JPanel {
                 // Dodanie ActionListenerów do przycisków odpowiedzi
                 final Integer buttonID = i;
                 newButton.addActionListener(e -> {
-                    System.out.println("Button " + (buttonID + 1) + " clicked!");
+                    logger.info("Button " + (buttonID + 1) + " clicked!");
                     handleClick(currentCategoryQuestions, newButton.getText(), buttonID);
                 });
             }

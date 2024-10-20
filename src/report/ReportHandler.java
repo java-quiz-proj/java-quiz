@@ -1,3 +1,5 @@
+package report;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,7 +16,7 @@ public class ReportHandler {
             logger = Logger.getLogger("MyLog");
 
             // Utwórz unikową nazwę pliku na podstawie obecnej daty i czasu
-            String timestamp = new SimpleDateFormat("yyyy/MM/dd_HH:mm:ss").format(new Date());
+            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String logFileName = "report_" + timestamp + ".txt";
 
             // Ustaw FileHandler by pisać do pliku
