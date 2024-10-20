@@ -1,3 +1,5 @@
+import report.*;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.ObjectInputStream;
@@ -7,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class LoginHandler {
 
@@ -47,8 +50,9 @@ public class LoginHandler {
 
     public void loadUsers() {
         File file = new File(this.filePath);
+        Logger logger = ReportHandler.getLogger();
         if (!file.exists()) {
-            System.err.println("No users file found");
+            logger.warning("No users file found");
         }
         else if (file.length() > 0) {
             try (FileInputStream fileIn = new FileInputStream(this.filePath);
@@ -65,7 +69,7 @@ public class LoginHandler {
                         users = (List<User>) obj;
                     } 
                     else {
-                        System.err.println("Unexpected data in the file.");
+                        logger.warning("Unexpected data in the file.");
                     }
 
             } catch (IOException | ClassNotFoundException e) {
@@ -77,12 +81,13 @@ public class LoginHandler {
     }
 
     public void addUser(String username, String password) {
+        Logger logger = ReportHandler.getLogger();
         User user = new User(username, password);
         try (FileOutputStream fileOut = new FileOutputStream(this.filePath);
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(user);
             users.add(user);
-            System.out.println("User has been serialized: " + user);
+            logger.info("User has been serialized: " + user);
         } catch (IOException e) {
             e.printStackTrace();
         }
