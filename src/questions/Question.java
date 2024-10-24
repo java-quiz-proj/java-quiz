@@ -1,10 +1,16 @@
 package questions;
 
+import report.*;
+
+import jdk.javadoc.doclet.Reporter;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+
 
 public abstract class Question {
     protected List<String> questions;
@@ -43,7 +49,8 @@ public abstract class Question {
             if (isLineValid(parts)) {
                 addQuestion(parts);
             } else {
-                System.err.println("Niepoprawny format pytania: " + line);
+                Logger logger = ReportHandler.getLogger();
+                logger.severe("Niepoprawny format pytania: " + line);
             }
         }
 
@@ -56,14 +63,16 @@ public abstract class Question {
         private void addQuestion(String[] parts) {
             questions.add(parts[0]); // Pytanie
             correctAnswers.add(parts[1]); // Poprawna odpowiedź
-            System.out.println("Pobrano pytanie: " + parts[0]);
-            System.out.println("Poprawna odpowiedź: " + parts[1]);
+
+            Logger logger = ReportHandler.getLogger();
+            logger.info("Pobrano pytanie: " + parts[0]);
+            logger.info("Poprawna odpowiedź: " + parts[1]);
 
             // Dodaj wszystkie odpowiedzi (parts[2], .. parts[5])
             List<String> currAnswers = new ArrayList<>();
             for (int i = 2; i < parts.length; i++) {
                 currAnswers.add(parts[i]);
-                System.out.println("Odpowiedź " + (i-1) + ": " + parts[i]);
+                logger.info("Odpowiedź " + (i-1) + ": " + parts[i]);
             }
             answers.add(currAnswers);
         }
