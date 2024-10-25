@@ -4,15 +4,17 @@ import report.*;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import java.awt.GridLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
+
+import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.util.logging.Logger;
 
 public class MyPanel extends JPanel {
     private final int defaultAnswerAmount = 4;
@@ -162,7 +164,6 @@ public class MyPanel extends JPanel {
         currentQuestionIndex++;  // Zwiększenie licznika pytań
     }
 
-
     // Metoda sprawdzająca poprawność odpowiedzi
     private void checkAnswer(Category questions, String answer, Integer buttonId) {
         // Wyłączenie przycisków po wyborze odpowiedzi
@@ -190,7 +191,7 @@ public class MyPanel extends JPanel {
                 }
 
                 // Zmiana koloru przycisku na czerwony, jeśli odpowiedź jest błędna
-                answerButtons.get(buttonId).setBackground(new Color(255, 0, 0));
+                answerButtons.get(buttonId).setBackground(new Color(255, 0, 0)); 
             }
         }
     }

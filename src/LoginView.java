@@ -1,3 +1,5 @@
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -5,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 public class LoginView extends JPanel {
@@ -16,27 +20,40 @@ public class LoginView extends JPanel {
 
     public LoginView(JFrame frame) {
         this.frame = frame;
+
+        // Ustaw parametry LoginView
         setLayout(new GridLayout(3, 2));
+        setMaximumSize(new Dimension(400, 300));
         
         JLabel usernameLabel = new JLabel("Username:");
         usernameField = new JTextField();
-        
+
         JLabel passwordLabel = new JLabel("Password:");
         passwordField = new JPasswordField();
-        
+
         loginButton = new JButton("Login");
         registerButton = new JButton("Register");
-        
+
         add(usernameLabel);
         add(usernameField);
         add(passwordLabel);
         add(passwordField);
         add(loginButton);
         add(registerButton);
-        
+
         logInHandler = new LoginHandler("users.ser");
         loginButton.addActionListener(e -> handleLogin());
         registerButton.addActionListener(e -> handleRegister());
+        
+        // dodaj LoginView do panelu wyśrodkowującego
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(Box.createVerticalGlue());
+        panel.add(this);
+        panel.add(Box.createVerticalGlue());
+
+        // zaaktualizuj frame
+        frame.add(panel);
     }
 
     private void handleLogin() {
