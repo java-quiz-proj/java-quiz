@@ -1,6 +1,7 @@
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import java.awt.*;
+
+import java.awt.GridLayout;
 
 public class CategoryView extends JPanel {
     private static JButton animals, maths, history, geography;
