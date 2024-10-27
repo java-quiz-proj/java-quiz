@@ -88,6 +88,12 @@ public class LoginHandler {
         }
     }
 
+    public static class UserAlreadyExistsException extends Exception {
+        public UserAlreadyExistsException(String message) {
+            super(message);
+        }
+    }    
+
     private List<User> users;
     private String filePath;
 
@@ -135,13 +141,24 @@ public class LoginHandler {
         User user = new User(username, password);
         try (FileOutputStream fileOut = new FileOutputStream(this.filePath);
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-            out.writeObject(user);
-            users.add(user);
-            logger.info("User has been serialized: " + user);
+
+                out.writeObject(user);
+                users.add(user);
+                logger.info("User has been serialized: " + user);
+
         } catch (IOException e) {
             logger.severe("Error when serializing user: " + user);
             e.printStackTrace();
         }
+    }
+
+    public boolean doesUserExist(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Uwierzytelnij użytkownika

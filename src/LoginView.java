@@ -15,7 +15,7 @@ public class LoginView extends JPanel {
     private JButton loginButton, registerButton;
     private JFrame frame;
     private JPanel panel;
-    private LoginHandler logInHandler;
+    private LoginHandler loginHandler;
 
     public LoginView(JFrame frame) {
         this.frame = frame;
@@ -38,7 +38,7 @@ public class LoginView extends JPanel {
         panel.add(loginButton);
         panel.add(registerButton);
         
-        logInHandler = new LoginHandler("users.ser");
+        loginHandler = new LoginHandler("users.ser");
         loginButton.addActionListener(e -> handleLogin());
         registerButton.addActionListener(e -> handleRegister());
 
@@ -49,7 +49,7 @@ public class LoginView extends JPanel {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if (logInHandler.authenticate(username, password)) {
+        if (loginHandler.authenticate(username, password)) {
             // Usuń poprzedni panel logowania
             panel.setVisible(false);
 
@@ -67,6 +67,10 @@ public class LoginView extends JPanel {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        logInHandler.addUser(username, password);
+        if (!loginHandler.doesUserExist(username)) {
+            loginHandler.addUser(username, password);
+        } else {
+            JOptionPane.showMessageDialog(this, "User already exists.");
+        }
     }
 }
