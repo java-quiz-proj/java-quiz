@@ -1,4 +1,5 @@
 import questions.*;  // Importuje wszystkie klasy z pakietu questions
+import report.*;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -11,6 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 public class MyPanel extends JPanel {
     private final int defaultAnswerAmount = 4;
@@ -47,13 +49,13 @@ public class MyPanel extends JPanel {
         // Dodanie elementów do panelu i ustawienie układu siatki
         add(questionLabel);
         add(scoreLabel);
-        setLayout(new GridLayout(3, 2));  // Ustawienie GridLayout dla przycisków i etykiet
+
         for (int i = 0; i < defaultAnswerAmount; i++) {
             JButton button = new JButton("");
             answerButtons.add(button);
             add(button);
         }
-
+        setLayout(new GridLayout(6, 1, 0, 15));  // Ustawienie GridLayout dla przycisków i etykiet
         // Wywołanie metody do załadowania pierwszego pytania
         loadNewQuestion(currentCategoryQuestions);
     }
@@ -92,7 +94,7 @@ public class MyPanel extends JPanel {
     private void endQuiz() {
         chooseCategoryButton = new JButton("Wybierz kategorię");  // Przycisk do wyboru nowej kategorii
         endScoreLabel = new JLabel("Gratulacje, zdobywasz " + score + " punktów!");  // Wyświetlenie końcowego wyniku
-        setLayout(new GridLayout(8, 1));  // Zmiana układu na więcej wierszy
+        setLayout(new GridLayout(12, 1));  // Zmiana układu na więcej wierszy
         add(endScoreLabel, 0);
         add(chooseCategoryButton, 1);
         // Ukrycie elementów związanych z pytaniami
@@ -126,8 +128,8 @@ public class MyPanel extends JPanel {
         List<String> answers = new ArrayList<>();
         answers = questions.getAnswers(shuffledQuestionsIndices.get(currentQuestionIndex));
         Collections.shuffle(answers);  // Przetasowanie odpowiedzi
-        System.out.println(currentQuestionIndex + " " + answers);
-
+        Logger logger = ReportHandler.getLogger();
+        logger.info(currentQuestionIndex + " " + answers);
         // Ustawienie nowego pytania i odpowiedzi na przyciskach
         questionLabel.setText("" + (currentQuestionIndex + 1) + ". " + questions.getQuestion(shuffledQuestionsIndices.get(currentQuestionIndex)));
 
@@ -151,7 +153,7 @@ public class MyPanel extends JPanel {
                 // Dodanie ActionListenerów do przycisków odpowiedzi
                 final Integer buttonID = i;
                 newButton.addActionListener(e -> {
-                    System.out.println("Button " + (buttonID + 1) + " clicked!");
+                    logger.info("Button " + (buttonID + 1) + " clicked!");
                     handleClick(currentCategoryQuestions, newButton.getText(), buttonID);
                 });
             }
