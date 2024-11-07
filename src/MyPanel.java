@@ -24,8 +24,10 @@ public class MyPanel extends JPanel {
     private List<Integer> shuffledQuestionsIndices = new ArrayList<>();  // Lista z indeksami pytań, które zostaną losowo przetasowane
     private int currentQuestionIndex;  // Numer aktualnego pytania
     private Category currentCategoryQuestions;  // Obiekt zawierający pytania z wybranej kategorii
+    private String currentCategory;
 
     public MyPanel(String category) {
+        currentCategory = category; // Zapisanie aktualnej kategorii
         score = 0;  // Inicjalizacja wyniku na 0
         questionLabel = new JLabel("" + currentQuestionIndex);  // Etykieta pytania (początkowo pusta)
         scoreLabel = new JLabel("Wynik: " + score);  // Etykieta z wynikiem
@@ -34,10 +36,10 @@ public class MyPanel extends JPanel {
 
         // Wybór kategorii pytań w zależności od podanego argumentu (polimorfizm)
         switch (category) {
-            case "maths" -> currentCategoryQuestions = new Maths();
-            case "geography" -> currentCategoryQuestions = new Geography();
-            case "animals" -> currentCategoryQuestions = new Animals();
-            case "history" -> currentCategoryQuestions = new History();
+            case "Maths" -> currentCategoryQuestions = new Maths();
+            case "Geography" -> currentCategoryQuestions = new Geography();
+            case "Animals" -> currentCategoryQuestions = new Animals();
+            case "History" -> currentCategoryQuestions = new History();
         }
         
         // Dodanie indeksów pytań do listy i ich przetasowanie
@@ -103,6 +105,12 @@ public class MyPanel extends JPanel {
         for (JButton button : answerButtons) {
             button.setVisible(false);
         }
+
+        // Zapisanie wyniku quizu do pliku
+        CurrentUser currUserObj = CurrentUser.getInstance();
+        System.out.println(currUserObj.getUser());
+        currUserObj.getLoginHandler().updateUserScore(currentCategory, score);
+        System.out.println(currUserObj.getUser());
 
         // Obsługa wyboru nowej kategorii po zakończeniu quizu
         chooseCategoryButton.addActionListener(e -> {

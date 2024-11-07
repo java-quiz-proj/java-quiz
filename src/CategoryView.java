@@ -1,6 +1,7 @@
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import java.awt.*;
+
+import java.awt.GridLayout;
 
 public class CategoryView extends JPanel {
     private static JButton animals, maths, history, geography;
@@ -20,21 +21,10 @@ public class CategoryView extends JPanel {
 
         add(buttonPanel);
 
-        animals.addActionListener(e -> {
-            addNewPanel("animals");
-        });
-
-        maths.addActionListener(e -> {
-            addNewPanel("maths");
-        });
-
-        history.addActionListener(e -> {
-            addNewPanel("history");
-        });
-
-        geography.addActionListener(e -> {
-            addNewPanel("geography");
-        });
+        animals.addActionListener(e -> addNewPanel("Animals"));
+        maths.addActionListener(e -> addNewPanel("Maths"));
+        history.addActionListener(e -> addNewPanel("History"));
+        geography.addActionListener(e -> addNewPanel("Geography"));
     }
 
     private void addNewPanel(String cat){
