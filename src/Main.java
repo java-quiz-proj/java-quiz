@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+
 import java.awt.Font;
 import java.util.logging.Logger;
 
@@ -11,7 +12,7 @@ public class Main{
 
     public static void main(String[] args) {
         // Ustawienie czcionki
-        Font myFont = new Font ("Arial", Font.PLAIN, 24);
+        Font myFont = new Font ("Arial", Font.PLAIN, 12);
         UIManager.put("Button.font", myFont);
         UIManager.put("Label.font", myFont);
         UIManager.put("Panel.font", myFont);
@@ -30,8 +31,7 @@ public class Main{
 
         startBtn.addActionListener(e -> {
             panel.setVisible(false);
-            LoginView loginView = new LoginView(frame);
-            frame.add(loginView);
+            new LoginView(frame);
         });
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

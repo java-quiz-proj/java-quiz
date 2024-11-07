@@ -1,29 +1,20 @@
 package questions;
 
-import java.util.List;
-
-public class Animals extends Question implements Category {
+public class Animals extends BaseCategory {
     public Animals() {
-        loadQuestions("animals_questions.txt"); // Upewnij się, że plik jest w odpowiednim miejscu
-    }
+        addQuestion("Która z tych rzek płynie przez Brazylię?", "Amazonka", 
+            "Amazonka", "Nil", "Ganges", "Mississippi");
 
-    @Override
-    public List<String> getQuestions() {
-        return questions; // Implementacja metody getQuestions
-    }
+        addQuestion("Który ocean jest największy?", "Spokojny", 
+            "Spokojny", "Atlantyk", "Indyjski", "Arktyczny");
 
-    @Override
-    public String getQuestion(int n) {
-        return questions.get(n); // Uzyskiwanie pytania z listy
-    }
+        addQuestion("Jak długi jest Równik?", "~40k km", 
+            "~40k km", "~120k km", "~77k km", "~25k km");
 
-    @Override
-    public List<String> getAnswers(int n) {
-        return answers.get(n); // Uzyskiwanie odpowiedzi 1
-    }
+        addQuestion("Jaki jest drugi największy kraj pod względem terytorium?", "Kanada", 
+            "Kanada", "Rosja", "Brazylia", "Chiny");
 
-    @Override
-    public List<String> getCorrectAnswers() {
-        return correctAnswers; // Implementacja metody getCorrectAnswers
+        addQuestion("Co jest stolicą Australii?", "Canberra", 
+            "Canberra", "Melbourne", "Sydney", "żadna z tych");
     }
 }

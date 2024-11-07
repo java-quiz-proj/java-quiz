@@ -20,21 +20,10 @@ public class CategoryView extends JPanel {
 
         add(buttonPanel);
 
-        animals.addActionListener(e -> {
-            addNewPanel("animals");
-        });
-
-        maths.addActionListener(e -> {
-            addNewPanel("maths");
-        });
-
-        history.addActionListener(e -> {
-            addNewPanel("history");
-        });
-
-        geography.addActionListener(e -> {
-            addNewPanel("geography");
-        });
+        animals.addActionListener(e -> addNewPanel("animals"));
+        maths.addActionListener(e -> addNewPanel("maths"));
+        history.addActionListener(e -> addNewPanel("history"));
+        geography.addActionListener(e -> addNewPanel("geography"));
     }
 
     private void addNewPanel(String cat){
