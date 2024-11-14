@@ -4,20 +4,20 @@ import java.util.List;
 
 public class Animals extends Questions implements Category {
     public Animals() {
-        addQuestion("Która z tych rzek płynie przez Brazylię?", "Amazonka", 
-            "Amazonka", "Nil", "Ganges", "Mississippi");
+        addQuestion("Ile kręgów szyjnych ma żyrafa?", "7",
+            "7", "19", "12");
 
-        addQuestion("Który ocean jest największy?", "Spokojny", 
-            "Spokojny", "Atlantyk", "Indyjski", "Arktyczny");
+        addQuestion("Ile odnóży mają homary?", "10",
+            "10", "8", "12", "6");
 
-        addQuestion("Jak długi jest Równik?", "~40k km", 
-            "~40k km", "~120k km", "~77k km", "~25k km");
+        addQuestion("Co NIE jest prawdą o dziobaku?", "potrafi latać",
+            "potrafi latać", "znosi jaja", "produkuje truciznę", "posiada dziób");
 
-        addQuestion("Jaki jest drugi największy kraj pod względem terytorium?", "Kanada", 
-            "Kanada", "Rosja", "Brazylia", "Chiny");
+        addQuestion("Jaki kolor ma skóra niedźwiedzia polarnego?", "czarny",
+             "czarny", "różowy", "biały");
 
-        addQuestion("Co jest stolicą Australii?", "Canberra", 
-            "Canberra", "Melbourne", "Sydney", "żadna z tych");
+        addQuestion("Jakie jest największe żyjące zwierzę?", "płetwal błękitny",
+            "płetwal błękitny", "żyrafa", "słoń", "rekin olbrzymi");
     }
     @Override
     public List<String> getQuestions() {
