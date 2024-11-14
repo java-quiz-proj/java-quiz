@@ -3,12 +3,12 @@ package questions;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Question {
+public abstract class Questions {
     protected List<String> questions;
     protected List<String> correctAnswers;
     protected List<List<String>> answers;
 
-    public Question() {
+    public Questions() {
         questions = new ArrayList<>();
         correctAnswers = new ArrayList<>();
         answers = new ArrayList<>();

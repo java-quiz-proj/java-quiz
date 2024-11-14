@@ -107,10 +107,11 @@ public class MyPanel extends JPanel {
         }
 
         // Zapisanie wyniku quizu do pliku
+        Logger logger = ReportHandler.getLogger();
         CurrentUser currUserObj = CurrentUser.getInstance();
-        System.out.println(currUserObj.getUser());
+        logger.info(currUserObj.getUser().toString());
         currUserObj.getLoginHandler().updateUserScore(currentCategory, score);
-        System.out.println(currUserObj.getUser());
+        logger.info(currUserObj.getUser().toString());
 
         // Obsługa wyboru nowej kategorii po zakończeniu quizu
         chooseCategoryButton.addActionListener(e -> {
