@@ -2,7 +2,7 @@ package questions;
 
 import java.util.List;
 
-public class History extends Question implements Category {
+public class History extends Questions implements Category {
     public History() {
         addQuestion("Kiedy pierwszy człowiek wylądował na Księżycu?", "20 lipca 1969", 
             "20 lipca 1969", "19 lipca 1971", "21 lipca 1968", "21 lipca 1970");

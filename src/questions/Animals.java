@@ -2,7 +2,7 @@ package questions;
 
 import java.util.List;
 
-public class Animals extends Question implements Category {
+public class Animals extends Questions implements Category {
     public Animals() {
         addQuestion("Która z tych rzek płynie przez Brazylię?", "Amazonka", 
             "Amazonka", "Nil", "Ganges", "Mississippi");

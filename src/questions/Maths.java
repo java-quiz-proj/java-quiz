@@ -2,7 +2,7 @@ package questions;
 
 import java.util.List;
 
-public class Maths extends Question implements Category {
+public class Maths extends Questions implements Category {
     public Maths() {
         addQuestion("sin(90 deg) = ?", "1", 
             "1", "~ -1,7", "0", "~ 1,5");
