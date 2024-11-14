@@ -1,0 +1,26 @@
+Nov 14, 2024 2:50:02 PM Main main
+INFO: Program został uruchomiony.
+Nov 14, 2024 2:50:24 PM LoginHandler addUser
+INFO: User has been serialized: User{username='mik', password='123', statistics=QuizStatistics{categoryScores={Geography=[], Maths=[], Animals=[], History=[]}}}
+Nov 14, 2024 2:50:30 PM MyPanel loadNewQuestion
+INFO: 0 [Władysław Jagiełło, Mieszko I, Bolesław Chrobry, Mieszko II]
+Nov 14, 2024 2:50:32 PM MyPanel lambda$loadNewQuestion$1
+INFO: Button 3 clicked!
+Nov 14, 2024 2:50:34 PM MyPanel loadNewQuestion
+INFO: 1 [iPada, żarówkę, wi-fi, słuchawki]
+Nov 14, 2024 2:50:36 PM MyPanel lambda$loadNewQuestion$1
+INFO: Button 2 clicked!
+Nov 14, 2024 2:50:38 PM MyPanel loadNewQuestion
+INFO: 2 [21 lipca 1970, 19 lipca 1971, 21 lipca 1968, 20 lipca 1969]
+Nov 14, 2024 2:50:40 PM MyPanel lambda$loadNewQuestion$1
+INFO: Button 4 clicked!
+Nov 14, 2024 2:50:42 PM MyPanel loadNewQuestion
+INFO: 3 [starożytni Grecy, starożytni Chińczycy, Sumerowie, starożytni Egipcjanie]
+Nov 14, 2024 2:50:45 PM MyPanel lambda$loadNewQuestion$1
+INFO: Button 3 clicked!
+Nov 14, 2024 2:50:47 PM MyPanel loadNewQuestion
+INFO: 4 [Neron, Oktawian August, Romulus, Juliusz Cezar]
+Nov 14, 2024 2:50:50 PM MyPanel lambda$loadNewQuestion$1
+INFO: Button 2 clicked!
+Nov 14, 2024 2:50:52 PM LoginHandler saveUserScore
+INFO: User scores have been serialized.

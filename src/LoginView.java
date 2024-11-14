@@ -20,7 +20,7 @@ public class LoginView extends JPanel {
     public LoginView(JFrame frame) {
         this.frame = frame;
         panel = new JPanel(new GridLayout(3, 2, 5, 5));
-        panel.setPreferredSize(new Dimension(250, 150));
+        panel.setPreferredSize(new Dimension(300, 150));
         
         JLabel usernameLabel = new JLabel("Username:");
         usernameField = new JTextField();

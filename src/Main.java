@@ -13,7 +13,7 @@ public class Main{
 
     public static void main(String[] args) {
         // Ustawienie czcionki
-        Font myFont = new Font ("Arial", Font.PLAIN, 12);
+        Font myFont = new Font ("Arial", Font.PLAIN, 24);
         UIManager.put("Button.font", myFont);
         UIManager.put("Label.font", myFont);
         UIManager.put("Panel.font", myFont);
