@@ -1,6 +1,5 @@
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -13,7 +12,6 @@ public class LoginView extends JPanel {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton, registerButton;
-    private JFrame frame;
     private JPanel panel;
     private LoginHandler loginHandler;
 
