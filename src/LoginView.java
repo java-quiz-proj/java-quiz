@@ -3,10 +3,14 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import report.ReportHandler;
+
 import javax.swing.JPasswordField;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.logging.Logger;
 
 public class LoginView extends JPanel {
     private JTextField usernameField;
@@ -64,9 +68,16 @@ public class LoginView extends JPanel {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if (!loginHandler.doesUserExist(username)) {
+        Logger logger = ReportHandler.getLogger();
+        if (password.trim().isEmpty()) {
+            logger.warning("Attempted to register with a blank password.");
+            JOptionPane.showMessageDialog(this, "Password can't be blank.");
+        }
+        else if (!loginHandler.doesUserExist(username)) {
             loginHandler.addUser(username, password);
-        } else {
+        }
+        else {
+            logger.warning("Attempted to register with an existing username: " + username);
             JOptionPane.showMessageDialog(this, "User already exists.");
         }
     }
