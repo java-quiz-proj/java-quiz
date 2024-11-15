@@ -17,8 +17,7 @@ public class LoginView extends JPanel {
     private JPanel panel;
     private LoginHandler loginHandler;
 
-    public LoginView(JFrame frame) {
-        this.frame = frame;
+    public LoginView() {
         panel = new JPanel(new GridLayout(3, 2, 5, 5));
         panel.setPreferredSize(new Dimension(300, 150));
         
@@ -55,9 +54,9 @@ public class LoginView extends JPanel {
 
             // Pokaż quiz
             CategoryView categoryView = new CategoryView();
-            frame.add(categoryView);
-            frame.revalidate();
-            frame.repaint();
+            add(categoryView);
+            revalidate();
+            repaint();
         } else {
             JOptionPane.showMessageDialog(this, "Invalid username or password.");
         }
