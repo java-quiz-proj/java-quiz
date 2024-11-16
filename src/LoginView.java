@@ -22,23 +22,23 @@ public class LoginView extends JPanel {
     public LoginView() {
         panel = new JPanel(new GridLayout(3, 2, 5, 5));
         panel.setPreferredSize(new Dimension(300, 150));
-        
+
         JLabel usernameLabel = new JLabel("Username:");
         usernameField = new JTextField();
-        
+
         JLabel passwordLabel = new JLabel("Password:");
         passwordField = new JPasswordField();
-        
+
         loginButton = new JButton("Login");
         registerButton = new JButton("Register");
-        
+
         panel.add(usernameLabel);
         panel.add(usernameField);
         panel.add(passwordLabel);
         panel.add(passwordField);
         panel.add(loginButton);
         panel.add(registerButton);
-        
+
         loginHandler = new LoginHandler("users.ser");
         loginButton.addActionListener(e -> handleLogin());
         registerButton.addActionListener(e -> handleRegister());
@@ -75,10 +75,13 @@ public class LoginView extends JPanel {
         }
         else if (!loginHandler.doesUserExist(username)) {
             loginHandler.addUser(username, password);
+            // automatyczne logowanie po poprawnej rejestracji
+            handleLogin();
         }
         else {
             logger.warning("Attempted to register with an existing username: " + username);
             JOptionPane.showMessageDialog(this, "User already exists.");
         }
     }
+
 }
