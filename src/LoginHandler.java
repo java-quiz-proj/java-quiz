@@ -88,12 +88,6 @@ public class LoginHandler {
         }
     }
 
-    public static class UserAlreadyExistsException extends Exception {
-        public UserAlreadyExistsException(String message) {
-            super(message);
-        }
-    }    
-
     private List<User> users;
     private String filePath;
 

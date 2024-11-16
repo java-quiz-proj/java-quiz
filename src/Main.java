@@ -39,7 +39,7 @@ public class Main{
         startBtn.addActionListener(e -> {
             panel.setVisible(false);
             
-            LoginView loginView = new LoginView(frame);
+            LoginView loginView = new LoginView();
             frame.add(loginView);
             frame.revalidate();
             frame.repaint();

@@ -1,24 +1,25 @@
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import report.ReportHandler;
+
 import javax.swing.JPasswordField;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.logging.Logger;
 
 public class LoginView extends JPanel {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton, registerButton;
-    private JFrame frame;
     private JPanel panel;
     private LoginHandler loginHandler;
 
-    public LoginView(JFrame frame) {
-        this.frame = frame;
+    public LoginView() {
         panel = new JPanel(new GridLayout(3, 2, 5, 5));
         panel.setPreferredSize(new Dimension(300, 150));
         
@@ -55,9 +56,9 @@ public class LoginView extends JPanel {
 
             // Pokaż quiz
             CategoryView categoryView = new CategoryView();
-            frame.add(categoryView);
-            frame.revalidate();
-            frame.repaint();
+            add(categoryView);
+            revalidate();
+            repaint();
         } else {
             JOptionPane.showMessageDialog(this, "Invalid username or password.");
         }
@@ -67,9 +68,16 @@ public class LoginView extends JPanel {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if (!loginHandler.doesUserExist(username)) {
+        Logger logger = ReportHandler.getLogger();
+        if (password.trim().isEmpty()) {
+            logger.warning("Attempted to register with a blank password.");
+            JOptionPane.showMessageDialog(this, "Password can't be blank.");
+        }
+        else if (!loginHandler.doesUserExist(username)) {
             loginHandler.addUser(username, password);
-        } else {
+        }
+        else {
+            logger.warning("Attempted to register with an existing username: " + username);
             JOptionPane.showMessageDialog(this, "User already exists.");
         }
     }
