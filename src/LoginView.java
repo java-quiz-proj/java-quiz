@@ -5,6 +5,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 public class LoginView extends JPanel {
@@ -12,11 +14,13 @@ public class LoginView extends JPanel {
     private JPasswordField passwordField;
     private JButton loginButton, registerButton;
     private JFrame frame;
-    private LoginHandler logInHandler;
+    private JPanel panel;
+    private LoginHandler loginHandler;
 
     public LoginView(JFrame frame) {
         this.frame = frame;
-        setLayout(new GridLayout(3, 2));
+        panel = new JPanel(new GridLayout(3, 2, 5, 5));
+        panel.setPreferredSize(new Dimension(300, 150));
         
         JLabel usernameLabel = new JLabel("Username:");
         usernameField = new JTextField();
@@ -27,25 +31,27 @@ public class LoginView extends JPanel {
         loginButton = new JButton("Login");
         registerButton = new JButton("Register");
         
-        add(usernameLabel);
-        add(usernameField);
-        add(passwordLabel);
-        add(passwordField);
-        add(loginButton);
-        add(registerButton);
+        panel.add(usernameLabel);
+        panel.add(usernameField);
+        panel.add(passwordLabel);
+        panel.add(passwordField);
+        panel.add(loginButton);
+        panel.add(registerButton);
         
-        logInHandler = new LoginHandler("users.ser");
+        loginHandler = new LoginHandler("users.ser");
         loginButton.addActionListener(e -> handleLogin());
         registerButton.addActionListener(e -> handleRegister());
+
+        add(panel);
     }
 
     private void handleLogin() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if (logInHandler.authenticate(username, password)) {
+        if (loginHandler.authenticate(username, password)) {
             // Usuń poprzedni panel logowania
-            frame.getContentPane().removeAll();
+            panel.setVisible(false);
 
             // Pokaż quiz
             CategoryView categoryView = new CategoryView();
@@ -61,6 +67,10 @@ public class LoginView extends JPanel {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        logInHandler.addUser(username, password);
+        if (!loginHandler.doesUserExist(username)) {
+            loginHandler.addUser(username, password);
+        } else {
+            JOptionPane.showMessageDialog(this, "User already exists.");
+        }
     }
 }
