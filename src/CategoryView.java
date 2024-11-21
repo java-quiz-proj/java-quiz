@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 import java.awt.GridLayout;
 
 public class CategoryView extends JPanel {
-    private static JButton animals, maths, history, geography, logout;
+    private static JButton animals, maths, history, geography, logout, stats;
     private static JPanel buttonPanel;
 
     public CategoryView(){
@@ -13,12 +13,14 @@ public class CategoryView extends JPanel {
         maths = new JButton("Matematyka");
         history = new JButton("Historia");
         geography = new JButton("Geografia");
+        stats = new JButton("Stats");
         logout = new JButton("Logout");
 
         buttonPanel.add(maths);
         buttonPanel.add(animals);
         buttonPanel.add(history);
         buttonPanel.add(geography);
+        buttonPanel.add(stats);
         buttonPanel.add(logout);
 
         add(buttonPanel);
@@ -27,6 +29,8 @@ public class CategoryView extends JPanel {
         maths.addActionListener(e -> addNewPanel("Maths"));
         history.addActionListener(e -> addNewPanel("History"));
         geography.addActionListener(e -> addNewPanel("Geography"));
+
+        stats.addActionListener(e->showStats());
 
         logout.addActionListener(e -> {
             // logout user
@@ -45,6 +49,22 @@ public class CategoryView extends JPanel {
         buttonPanel.setVisible(false);
         add(panel);
     }
+
+    private void showStats() {
+        // Tworzymy nowy panel statystyk
+        StatsPanel statsPanel = new StatsPanel();
+
+        // Ukrywamy obecny panel przycisków
+        buttonPanel.setVisible(false);
+
+        // Dodajemy nowy panel do widoku
+        add(statsPanel);
+
+        // Odświeżamy interfejs graficzny, aby zmiana była widoczna
+//        revalidate();
+//        repaint();
+    }
+
 
     public static void chooseCat(){
         buttonPanel.setVisible(true);
