@@ -51,18 +51,9 @@ public class CategoryView extends JPanel {
     }
 
     private void showStats() {
-        // Tworzymy nowy panel statystyk
         StatsPanel statsPanel = new StatsPanel();
-
-        // Ukrywamy obecny panel przycisków
         buttonPanel.setVisible(false);
-
-        // Dodajemy nowy panel do widoku
         add(statsPanel);
-
-        // Odświeżamy interfejs graficzny, aby zmiana była widoczna
-//        revalidate();
-//        repaint();
     }
 
 

@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class StatsPanel extends JPanel {
     public StatsPanel() {
-        setLayout(new GridLayout(3, 1, 10, 10)); // Prosty układ siatki
+        setLayout(new GridLayout(4, 1, 10, 10)); // Siatka 4 wierszy: 3 statystyki + przycisk
 
         JLabel title = new JLabel("Statystyki", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 24));
@@ -17,5 +17,13 @@ public class StatsPanel extends JPanel {
         add(statsLabel1);
         add(statsLabel2);
         add(statsLabel3);
+
+        JButton backButton = new JButton("Powrót");
+        backButton.addActionListener(e -> {
+            JPanel parent = (JPanel) getParent();
+            setVisible(false);
+            CategoryView.chooseCat();
+        });
+        add(backButton);
     }
 }
