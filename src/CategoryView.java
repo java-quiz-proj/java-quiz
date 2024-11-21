@@ -1,21 +1,25 @@
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
 
-import java.awt.GridLayout;
+import java.awt.*;
 
 public class CategoryView extends JPanel {
     private static JButton animals, maths, history, geography, logout, stats;
     private static JPanel buttonPanel;
+    private static JLabel currUser;
 
     public CategoryView(){
-        buttonPanel = new JPanel(new GridLayout(5, 1, 50, 15));
+        currUser = new JLabel("Zalogowany/a jako: " + CurrentUser.getInstance().getUser().getUsername());
+        buttonPanel = new JPanel(new GridLayout(7, 1, 50, 15));
         animals = new JButton("Zwierzęta");
         maths = new JButton("Matematyka");
         history = new JButton("Historia");
         geography = new JButton("Geografia");
         stats = new JButton("Stats");
+        stats.setBackground(new Color(100, 149, 237));
         logout = new JButton("Logout");
+        logout.setBackground(new Color(255, 69, 0));
 
+        buttonPanel.add(currUser);
         buttonPanel.add(maths);
         buttonPanel.add(animals);
         buttonPanel.add(history);
