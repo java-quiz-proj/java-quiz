@@ -9,7 +9,7 @@ public class StatsPanel extends JPanel {
 
     public StatsPanel() {
         // Using BoxLayout for vertical arrangement
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        setLayout(new GridLayout(0, 1));
 
         // Title label
         JLabel title = new JLabel("Statystyki", SwingConstants.CENTER);
@@ -25,6 +25,11 @@ public class StatsPanel extends JPanel {
         geographyStats = new JTable(rowData, columnNames);
         historyStats = new JTable(rowData, columnNames);
         mathsStats = new JTable(rowData, columnNames);
+
+        animalsStats.setEnabled(false);
+        geographyStats.setEnabled(false);
+        historyStats.setEnabled(false);
+        mathsStats.setEnabled(false);
 
         // Set a preferred size for the tables (optional but recommended)
         animalsStats.setPreferredScrollableViewportSize(new Dimension(400, 150));
