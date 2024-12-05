@@ -1,28 +1,24 @@
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import report.ReportHandler;
-
-import javax.swing.JPasswordField;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.logging.Logger;
 
 public class LoginView extends JPanel {
+    private JFrame frame;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton, registerButton;
     private JPanel panel;
     private LoginHandler loginHandler;
 
-    public LoginView() {
+    public LoginView(JFrame frame) {
         panel = new JPanel(new GridLayout(3, 2, 5, 5));
         panel.setPreferredSize(new Dimension(300, 150));
 
+        this.frame = frame;
         JLabel usernameLabel = new JLabel("Username:");
         usernameField = new JTextField();
 
@@ -55,7 +51,7 @@ public class LoginView extends JPanel {
             panel.setVisible(false);
 
             // Pokaż quiz
-            CategoryView categoryView = new CategoryView();
+            CategoryView categoryView = new CategoryView(frame);
             add(categoryView);
             revalidate();
             repaint();

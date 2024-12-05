@@ -6,8 +6,11 @@ public class CategoryView extends JPanel {
     private static JButton animals, maths, history, geography, logout, stats;
     private static JPanel buttonPanel;
     private static JLabel currUser;
+    private JFrame frame;
 
-    public CategoryView(){
+    public CategoryView(JFrame frame){
+        this.frame = frame;
+        setLayout(new BorderLayout());
         currUser = new JLabel("Zalogowany/a jako: " + CurrentUser.getInstance().getUser().getUsername());
         buttonPanel = new JPanel(new GridLayout(7, 1, 50, 15));
         animals = new JButton("Zwierzęta");
@@ -27,7 +30,7 @@ public class CategoryView extends JPanel {
         buttonPanel.add(stats);
         buttonPanel.add(logout);
 
-        add(buttonPanel);
+        add(buttonPanel, BorderLayout.CENTER);
 
         animals.addActionListener(e -> addNewPanel("Animals"));
         maths.addActionListener(e -> addNewPanel("Maths"));
@@ -41,7 +44,7 @@ public class CategoryView extends JPanel {
             CurrentUser.getInstance().setCurrentUser(null, null);
             // set view to starting panel
             buttonPanel.setVisible(false);
-            LoginView loginView = new LoginView();
+            LoginView loginView = new LoginView(frame);
             add(loginView);
             revalidate();
             repaint();
@@ -56,8 +59,16 @@ public class CategoryView extends JPanel {
 
     private void showStats() {
         StatsPanel statsPanel = new StatsPanel();
+
+        // Hide the button panel (assuming it's the only component in the center)
         buttonPanel.setVisible(false);
-        add(statsPanel);
+
+        // Set the parent layout to BorderLayout (or ensure it uses it)
+        //setLayout(new BorderLayout());
+        frame.add(statsPanel);
+        statsPanel.setPreferredSize(new Dimension(600, 400));
+        frame.revalidate();
+        frame.repaint();
     }
 
 
