@@ -110,13 +110,13 @@ public class MyPanel extends JPanel {
         // Pobieramy nick użytkownika z CategoryView
         String username = CurrentUser.getInstance().getUser().getUsername();
 
-        // Zapisanie wyniku quizu do pliku w folderze "stats"
+        // Zapisanie wyniku quizu do pliku "stats.txt"
         try {
-            java.nio.file.Path statsDir = java.nio.file.Paths.get("stats");
+            // Określenie ścieżki do pliku stats.txt w katalogu głównym projektu
+            java.nio.file.Path filePath = java.nio.file.Paths.get("stats.txt");
 
-            String fileName = currentCategory + ".txt";  // Nazwa pliku odpowiadająca kategorii
-            java.nio.file.Path filePath = statsDir.resolve(fileName);
-            String content = "Gracz: " + username + " | Wynik: " + score + " punktów\n";
+            // Tworzenie treści do zapisania
+            String content = currentCategory + "|" + username + "|" + score + "\n";  // Format: <kategoria>|<gracz>|<wynik>
 
             // Dopisz wynik do pliku, jeśli istnieje, lub utwórz nowy
             java.nio.file.Files.writeString(filePath, content, java.nio.file.StandardOpenOption.CREATE, java.nio.file.StandardOpenOption.APPEND);
@@ -136,6 +136,7 @@ public class MyPanel extends JPanel {
             CategoryView.chooseCat();  // Wywołanie metody do wyboru kategorii
         });
     }
+
 
 
     // Metoda do załadowania nowego pytania

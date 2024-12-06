@@ -28,3 +28,4 @@ Geography|nick27|60
 Geography|nick28|88
 History|nick29|93
 History|nick30|56
+Animals|ja|3
