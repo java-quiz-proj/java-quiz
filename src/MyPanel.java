@@ -99,6 +99,7 @@ public class MyPanel extends JPanel {
         setLayout(new GridLayout(12, 1));  // Zmiana układu na więcej wierszy
         add(endScoreLabel, 0);
         add(chooseCategoryButton, 1);
+
         // Ukrycie elementów związanych z pytaniami
         questionLabel.setVisible(false);
         scoreLabel.setVisible(false);
@@ -106,12 +107,22 @@ public class MyPanel extends JPanel {
             button.setVisible(false);
         }
 
-        // Zapisanie wyniku quizu do pliku
-        Logger logger = ReportHandler.getLogger();
-        CurrentUser currUserObj = CurrentUser.getInstance();
-        logger.info(currUserObj.getUser().toString());
-        currUserObj.getLoginHandler().updateUserScore(currentCategory, score);
-        logger.info(currUserObj.getUser().toString());
+        // Pobieramy nick użytkownika z CategoryView
+        String username = CurrentUser.getInstance().getUser().getUsername();
+
+        // Zapisanie wyniku quizu do pliku w folderze "stats"
+        try {
+            java.nio.file.Path statsDir = java.nio.file.Paths.get("stats");
+
+            String fileName = currentCategory + ".txt";  // Nazwa pliku odpowiadająca kategorii
+            java.nio.file.Path filePath = statsDir.resolve(fileName);
+            String content = "Gracz: " + username + " | Wynik: " + score + " punktów\n";
+
+            // Dopisz wynik do pliku, jeśli istnieje, lub utwórz nowy
+            java.nio.file.Files.writeString(filePath, content, java.nio.file.StandardOpenOption.CREATE, java.nio.file.StandardOpenOption.APPEND);
+        } catch (java.io.IOException e) {
+            System.err.println("Błąd podczas zapisywania wyniku do pliku: " + e.getMessage());
+        }
 
         // Obsługa wyboru nowej kategorii po zakończeniu quizu
         chooseCategoryButton.addActionListener(e -> {
@@ -122,9 +133,10 @@ public class MyPanel extends JPanel {
             }
             remove(chooseCategoryButton);
             remove(endScoreLabel);
-            CategoryView.chooseCat();  // Wywołanie metody do wyboru kategorii (prawdopodobnie z innej klasy)
+            CategoryView.chooseCat();  // Wywołanie metody do wyboru kategorii
         });
     }
+
 
     // Metoda do załadowania nowego pytania
     private void loadNewQuestion(Category questions) {
