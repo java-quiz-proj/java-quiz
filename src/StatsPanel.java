@@ -2,12 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StatsPanel extends JPanel {
-    private List<JLabel> animalsLabels = new ArrayList<>();
-    private List<JLabel> geographyLabels = new ArrayList<>();
-    private List<JLabel> historyLabels = new ArrayList<>();
-    private List<JLabel> mathsLabels = new ArrayList<>();
+    private List<PlayerStat> stats = new ArrayList<>();  // Kolekcja statystyk graczy
 
     // Panel z etykietami wyników
     private JPanel statsPanel;
@@ -42,7 +40,7 @@ public class StatsPanel extends JPanel {
         add(title, BorderLayout.NORTH);
 
         // Zahardkodowane statystyki
-        hardcodeStats();
+        createStatLabels();
 
         // Tworzymy panel na radio buttony
         createCategoryButtons();
@@ -71,33 +69,23 @@ public class StatsPanel extends JPanel {
     }
 
     // Zahardkodowane statystyki w formie obiektów PlayerStat
-    private void hardcodeStats() {
-        List<PlayerStat> stats = new ArrayList<>();
-        stats.add(new PlayerStat("Zwierzęta", "nick1", "1"));
-        stats.add(new PlayerStat("Zwierzęta", "nick2", "3"));
-        stats.add(new PlayerStat("Maths", "nick3", "4"));
-        stats.add(new PlayerStat("Zwierzęta", "nick3", "3"));
-        stats.add(new PlayerStat("Geografia", "nick4", "5"));
-        stats.add(new PlayerStat("Historia", "nick5", "6"));
+    private void createStatLabels() {
+        // Tworzymy listę statystyk graczy
+        List<PlayerStat> playerStats = List.of(
+                new PlayerStat("Zwierzęta", "nick11111", "1"),
+                new PlayerStat("Zwierzęta", "nick2", "3"),
+                new PlayerStat("Maths", "nick3", "4"),
+                new PlayerStat("Zwierzęta", "nick3", "3"),
+                new PlayerStat("Geografia", "nick4", "5"),
+                new PlayerStat("Historia", "nick5", "6")
+        );
 
-        // Dodawanie do odpowiednich kategorii
-        for (PlayerStat stat : stats) {
-            switch (stat.category) {
-                case "Zwierzęta":
-                    animalsLabels.add(new JLabel(stat.toString()));
-                    break;
-                case "Geografia":
-                    geographyLabels.add(new JLabel(stat.toString()));
-                    break;
-                case "Historia":
-                    historyLabels.add(new JLabel(stat.toString()));
-                    break;
-                case "Maths":
-                    mathsLabels.add(new JLabel(stat.toString()));
-                    break;
-            }
+        // Przechodzimy po liście playerStats i dodajemy do stats
+        for (PlayerStat stat : playerStats) {
+            stats.add(stat);
         }
     }
+
 
     // Tworzymy przyciski (lub radio buttony) do wyboru kategorii
     private void createCategoryButtons() {
@@ -117,7 +105,7 @@ public class StatsPanel extends JPanel {
         group.add(historyButton);
         group.add(mathsButton);
 
-        // Dodajemy akcje do przycisków
+        // Dodajemy akcje do przycisków przy użyciu lambd
         animalsButton.addActionListener(e -> showCategoryStats("Zwierzęta"));
         geographyButton.addActionListener(e -> showCategoryStats("Geografia"));
         historyButton.addActionListener(e -> showCategoryStats("Historia"));
@@ -137,21 +125,13 @@ public class StatsPanel extends JPanel {
     private void showCategoryStats(String category) {
         statsPanel.removeAll();  // Usuwamy poprzednie dane
 
+        // Filtrowanie statystyk na podstawie kategorii za pomocą Stream
+        List<PlayerStat> filteredStats = stats.stream()
+                .filter(stat -> stat.category.equals(category))  // Filtrowanie statystyk według kategorii
+                .collect(Collectors.toList());
+
         // Wyświetlanie statystyk dla wybranej kategorii
-        switch (category) {
-            case "Zwierzęta":
-                displayCategoryStats(category, animalsLabels);
-                break;
-            case "Geografia":
-                displayCategoryStats(category, geographyLabels);
-                break;
-            case "Historia":
-                displayCategoryStats(category, historyLabels);
-                break;
-            case "Matematyka":
-                displayCategoryStats(category, mathsLabels);
-                break;
-        }
+        displayCategoryStats(category, filteredStats);
 
         // Odświeżamy panel
         statsPanel.revalidate();
@@ -159,14 +139,14 @@ public class StatsPanel extends JPanel {
     }
 
     // Wyświetlanie wyników dla danej kategorii
-    private void displayCategoryStats(String category, List<JLabel> labels) {
+    private void displayCategoryStats(String category, List<PlayerStat> filteredStats) {
         JLabel categoryTitle = new JLabel(category + " - Statystyki");
         categoryTitle.setFont(new Font("Arial", Font.BOLD, 18));
         statsPanel.add(categoryTitle);  // Dodajemy tytuł kategorii
 
         // Dodajemy etykiety wyników do panelu
-        for (JLabel label : labels) {
-            statsPanel.add(label);
+        for (PlayerStat stat : filteredStats) {
+            statsPanel.add(new JLabel(stat.toString()));  // Tworzymy nową etykietę dla każdego wyniku
         }
     }
 
