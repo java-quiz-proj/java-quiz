@@ -137,8 +137,6 @@ public class MyPanel extends JPanel {
         });
     }
 
-
-
     // Metoda do załadowania nowego pytania
     private void loadNewQuestion(Category questions) {
         if (shuffledQuestionsIndices.isEmpty() || currentQuestionIndex >= shuffledQuestionsIndices.size()) {

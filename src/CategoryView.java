@@ -10,13 +10,15 @@ public class CategoryView extends JPanel {
 
     public CategoryView(JFrame frame){
         this.frame = frame;
-        setLayout(new BorderLayout());
+
         currUser = new JLabel("Zalogowany/a jako: " + CurrentUser.getInstance().getUser().getUsername());
         buttonPanel = new JPanel(new GridLayout(7, 1, 50, 15));
+
         animals = new JButton("Zwierzęta");
         maths = new JButton("Matematyka");
         history = new JButton("Historia");
         geography = new JButton("Geografia");
+        
         stats = new JButton("Stats");
         stats.setBackground(new Color(100, 149, 237));
         logout = new JButton("Logout");
@@ -30,7 +32,7 @@ public class CategoryView extends JPanel {
         buttonPanel.add(stats);
         buttonPanel.add(logout);
 
-        add(buttonPanel, BorderLayout.CENTER);
+        add(buttonPanel);
 
         animals.addActionListener(e -> addNewPanel("Animals"));
         maths.addActionListener(e -> addNewPanel("Maths"));
@@ -70,7 +72,6 @@ public class CategoryView extends JPanel {
         frame.revalidate();
         frame.repaint();
     }
-
 
     public static void chooseCat(){
         buttonPanel.setVisible(true);
