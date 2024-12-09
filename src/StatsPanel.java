@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 
 import report.ReportHandler;
 
@@ -19,6 +20,8 @@ public class StatsPanel extends JPanel {
 
     // Panel z etykietami wyników
     private JPanel statsPanel;
+
+    private JScrollPane scrollPane;
 
     // Panel z przyciskami lub radio buttonami do wyboru kategorii
     private JPanel categoryPanel;
@@ -64,8 +67,15 @@ public class StatsPanel extends JPanel {
         add(statsPanel, BorderLayout.CENTER);
 
         // Tworzymy JScrollPane dla przewijanych danych
-        JScrollPane scrollPane = new JScrollPane(statsPanel);
+        scrollPane = new JScrollPane(statsPanel);
         scrollPane.setPreferredSize(new Dimension(600, 400));  // Można dostosować rozmiar
+        // Ustaw nagłówek JScrollPane
+        TitledBorder border = BorderFactory.createTitledBorder("Statistics");
+        border.setTitleFont(new Font("Arial", Font.BOLD, 18)); // Ustaw czcionke nagłówka
+        scrollPane.setBorder(border);
+        // Zmień szybkość scrollowania JScrollPane
+        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        // Dodaj JScrollPane do frame
         add(scrollPane, BorderLayout.CENTER);
 
         // Przycisk Powrót
@@ -145,9 +155,11 @@ public class StatsPanel extends JPanel {
 
     // Wyświetlanie wyników dla danej kategorii
     private void displayCategoryStats(String category, List<PlayerStat> filteredStats) {
-        JLabel categoryTitle = new JLabel(category + " - Statystyki");
-        categoryTitle.setFont(new Font("Arial", Font.BOLD, 18));
-        statsPanel.add(categoryTitle);  // Dodajemy tytuł kategorii
+        // Zmień tytuł nagłówka
+        if (scrollPane.getBorder() instanceof TitledBorder titledBorder) {
+            titledBorder.setTitle("Statystyki - " + category);
+            scrollPane.repaint();
+        }
 
         // Wpisz w log działanie użytkownika
         logger.info("Użytkownik wybrał kategorię: " + category);
