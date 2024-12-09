@@ -1,0 +1,9 @@
+nick9|88
+nick10|72
+nick11|66
+nick12|95
+nick21|77
+nick22|84
+nick29|93
+nick30|56
+dsa|1

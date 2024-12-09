@@ -1,0 +1,8 @@
+nick1|85
+nick2|78
+nick3|92
+nick4|65
+nick17|93
+nick18|67
+nick25|80
+nick26|75

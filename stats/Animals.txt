@@ -1,3 +1,7 @@
-Gracz: ja | Wynik: 1 punktów
-Gracz: ja | Wynik: 2 punktów
-Gracz: ja | Wynik: 1 punktów
+nick13|56
+nick14|64
+nick15|89
+nick16|72
+nick23|61
+nick24|50
+ja|3
