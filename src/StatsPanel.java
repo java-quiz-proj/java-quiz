@@ -1,5 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -86,7 +90,6 @@ public class StatsPanel extends JPanel {
         }
     }
 
-
     // Tworzymy przyciski (lub radio buttony) do wyboru kategorii
     private void createCategoryButtons() {
         categoryPanel = new JPanel();
@@ -162,6 +165,43 @@ public class StatsPanel extends JPanel {
                     break;
                 }
             }
+        }
+    }
+
+    private static void readStats(String category) {
+        String filePath = String.format("./stats/%s.txt", category);
+
+        // Check if file exists
+        File file = new File(filePath);
+        if (!file.exists()) {
+            System.out.println("File not found: " + filePath);
+            return;
+        }
+
+        List<PlayerStat> playerStats = List.of();
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\\|");
+
+                // Check file syntax
+                if (parts.length != 2) {
+                    System.out.println("Invalid line: " + line);
+                    continue;
+                }
+                
+                // Get stats data from file
+                String nickname = parts[0];
+                String result = parts[1];
+                
+                // Add the data to the list 
+                PlayerStat stat = new PlayerStat(category, nickname, result);
+                playerStats.add(stat);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
