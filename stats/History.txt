@@ -6,3 +6,4 @@ nick21|77
 nick22|84
 nick29|93
 nick30|56
+dsa|1
