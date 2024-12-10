@@ -77,7 +77,7 @@ public class LoginView extends JPanel {
     private void handleRegister() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
-
+///// eee macarena
         logInHandler.addUser(username, password);
     }
 }
