@@ -46,17 +46,23 @@ public class LoginView extends JPanel {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
-        if (loginHandler.authenticate(username, password)) {
-            // Usuń poprzedni panel logowania
-            panel.setVisible(false);
+        try {
+            if (loginHandler.authenticate(username, password)) {
+                // Usuń poprzedni panel logowania
+                panel.setVisible(false);
 
-            // Pokaż quiz
-            CategoryView categoryView = new CategoryView(frame);
-            add(categoryView);
-            revalidate();
-            repaint();
-        } else {
-            JOptionPane.showMessageDialog(this, "Invalid username or password.");
+                // Pokaż quiz
+                CategoryView categoryView = new CategoryView(frame);
+                add(categoryView);
+                revalidate();
+                repaint();
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid username or password.");
+            }
+        } catch (Exception ex) {
+            Logger logger = ReportHandler.getLogger();
+            logger.severe("Error during login process: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "An error occurred during login. Please try again.");
         }
     }
 
@@ -65,19 +71,21 @@ public class LoginView extends JPanel {
         String password = new String(passwordField.getPassword());
 
         Logger logger = ReportHandler.getLogger();
-        if (password.trim().isEmpty()) {
-            logger.warning("Attempted to register with a blank password.");
-            JOptionPane.showMessageDialog(this, "Password can't be blank.");
-        }
-        else if (!loginHandler.doesUserExist(username)) {
-            loginHandler.addUser(username, password);
-            // automatyczne logowanie po poprawnej rejestracji
-            handleLogin();
-        }
-        else {
-            logger.warning("Attempted to register with an existing username: " + username);
-            JOptionPane.showMessageDialog(this, "User already exists.");
+        try {
+            if (password.trim().isEmpty()) {
+                logger.warning("Attempted to register with a blank password.");
+                JOptionPane.showMessageDialog(this, "Password can't be blank.");
+            } else if (!loginHandler.doesUserExist(username)) {
+                loginHandler.addUser(username, password);
+                // automatyczne logowanie po poprawnej rejestracji
+                handleLogin();
+            } else {
+                logger.warning("Attempted to register with an existing username: " + username);
+                JOptionPane.showMessageDialog(this, "User already exists.");
+            }
+        } catch (Exception ex) {
+            logger.severe("Error during registration process: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "An error occurred during registration. Please try again.");
         }
     }
-
 }
