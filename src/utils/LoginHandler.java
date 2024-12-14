@@ -34,21 +34,7 @@ public class LoginHandler {
         public void addScore(String category, int score) {
             categoryScores.get(category).add(score);
         }
-    
-        public List<Integer> getScores(String category) {
-            return categoryScores.getOrDefault(category, new ArrayList<>());
-        }
 
-        public double getAverageScore(String category) {
-            List<Integer> scores = categoryScores.get(category);
-            if(scores.isEmpty()) return 0.0;
-            double sum = 0;
-            for (int score : scores) {
-                sum += score;
-            }
-            return sum / scores.size();
-        }
-    
         @Override
         public String toString() {
             return "QuizStatistics{" + "categoryScores=" + categoryScores + '}';
@@ -80,7 +66,7 @@ public class LoginHandler {
             return statistics; // Provide access to quiz statistics
         }
 
-        // Dla debugu
+        // For debug
         @Override
         public String toString() {
             return "User{" +
@@ -113,11 +99,11 @@ public class LoginHandler {
 
                     Object obj = in.readObject();
             
-                    // Jeżeli w pliku jest tylko jeden User (cast User na Liste wtedy wyrzuca wyjątek)
+                    // If there is only one User in the file (cast User onto the List throws exception)
                     if (obj instanceof User) {
                         users.add((User) obj);
                     }
-                    // Jeżeli w pliku jest wiele User
+                    // If there are many users in the file
                     else if (obj instanceof List<?>) {
                         users = (List<User>) obj;
                     } 
@@ -128,11 +114,10 @@ public class LoginHandler {
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        } else {
-            
         }
     }
 
+    // Add new user
     public void addUser(String username, String password) {
         Logger logger = ReportHandler.getLogger();
         User user = new User(username, password);
@@ -158,7 +143,7 @@ public class LoginHandler {
         return false;
     }
 
-    // Uwierzytelnij użytkownika
+    // Authenticate user
     public boolean authenticate(String username, String password) {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
@@ -167,31 +152,5 @@ public class LoginHandler {
             }
         }
         return false;
-    }
-
-    public void updateUserScore(String category, int score) {
-        String username = CurrentUser.getInstance().getUser().username;
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                user.getStatistics().addScore(category, score); // Update score for the user
-                saveUserScore(); // Save updated users to file after modification
-                return;
-            }
-        }
-        Logger logger = ReportHandler.getLogger();
-        logger.warning("User not found: " + username);
-    }
-
-    // wpisz wynik użytkownika do pliku
-    private void saveUserScore() {
-        Logger logger = ReportHandler.getLogger();
-        try (FileOutputStream fileOut = new FileOutputStream(this.filePath);
-             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-            out.writeObject(users);
-            logger.info("User scores have been serialized.");
-        } catch (IOException e) {
-            logger.severe("Error when writing user scores" + e.getMessage());
-            e.printStackTrace();
-        }
     }
 }

@@ -15,16 +15,21 @@ public class MenuView extends JPanel {
     public MenuView(JFrame frame){
         this.frame = frame;
 
+        // Add "Logged in as: " label
         currUser = new JLabel("Zalogowany/a jako: " + CurrentUser.getInstance().getUser().getUsername());
         buttonPanel = new JPanel(new GridLayout(7, 1, 50, 15));
 
+        // Category buttons
         animals = new JButton("Zwierzęta");
         maths = new JButton("Matematyka");
         history = new JButton("Historia");
         geography = new JButton("Geografia");
-        
+
+        // Statistics button
         stats = new JButton("Stats");
         stats.setBackground(new Color(100, 149, 237));
+
+        // Logout button
         logout = new JButton("Logout");
         logout.setBackground(new Color(255, 69, 0));
 
@@ -38,17 +43,17 @@ public class MenuView extends JPanel {
 
         add(buttonPanel);
 
-        animals.addActionListener(e -> addNewPanel("Animals"));
-        maths.addActionListener(e -> addNewPanel("Maths"));
-        history.addActionListener(e -> addNewPanel("History"));
-        geography.addActionListener(e -> addNewPanel("Geography"));
+        animals.addActionListener(e -> goToQuiz("Animals"));
+        maths.addActionListener(e -> goToQuiz("Maths"));
+        history.addActionListener(e -> goToQuiz("History"));
+        geography.addActionListener(e -> goToQuiz("Geography"));
 
         stats.addActionListener(e->showStats());
 
         logout.addActionListener(e -> {
-            // logout user
+            // Logout user
             CurrentUser.getInstance().setCurrentUser(null, null);
-            // set view to starting panel
+            // Set view to starting panel
             buttonPanel.setVisible(false);
             LoginView loginView = new LoginView(frame);
             add(loginView);
@@ -57,27 +62,28 @@ public class MenuView extends JPanel {
         });
     }
 
-    private void addNewPanel(String cat){
+    // Change to QuizView
+    private void goToQuiz(String cat){
         QuizView panel = new QuizView(cat);
         buttonPanel.setVisible(false);
         add(panel);
     }
 
+    // Change to StatsView
     private void showStats() {
         StatsView statsView = new StatsView();
 
-        // Hide the button panel (assuming it's the only component in the center)
+        // Hide the button panel
         buttonPanel.setVisible(false);
 
-        // Set the parent layout to BorderLayout (or ensure it uses it)
-        //setLayout(new BorderLayout());
+
         frame.add(statsView);
         statsView.setPreferredSize(new Dimension(600, 400));
         frame.revalidate();
         frame.repaint();
     }
 
-    public static void chooseCat(){
+    public static void goToMenu(){
         buttonPanel.setVisible(true);
     }
 }

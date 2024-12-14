@@ -9,6 +9,7 @@ public class CurrentUser {
 
     private CurrentUser() {}
 
+    // Get the current user
     public static CurrentUser getInstance() {
         if (instance == null) {
             instance = new CurrentUser();

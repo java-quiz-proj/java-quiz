@@ -19,25 +19,25 @@ import java.util.logging.Logger;
 
 public class QuizView extends JPanel {
     private final int defaultAnswerAmount = 4;
-    private int score;  // Zmienna przechowująca wynik gracza
-    private JLabel questionLabel, scoreLabel, endScoreLabel;  // Etykiety do wyświetlania pytania, wyniku oraz końcowego wyniku
-    private JButton chooseCategoryButton;  // Przyciski do wyboru odpowiedzi oraz powrotu do wyboru kategorii
+    private int score;  // Variable storing player's resuly
+    private JLabel questionLabel, scoreLabel, endScoreLabel;  // Labels for questions, current score and end score
+    private JButton goToMenuButton;  // Buttons for choosing answer and return to menu
     private List<JButton> answerButtons;
 
-    private List<Integer> shuffledQuestionsIndices = new ArrayList<>();  // Lista z indeksami pytań, które zostaną losowo przetasowane
-    private int currentQuestionIndex;  // Numer aktualnego pytania
-    private Category currentCategoryQuestions;  // Obiekt zawierający pytania z wybranej kategorii
+    private List<Integer> shuffledQuestionsIndices = new ArrayList<>();  // List with questions' indexes that will get shuffled
+    private int currentQuestionIndex;  // Current question number
+    private Category currentCategoryQuestions;  // Object with the current category's questions
     private String currentCategory;
 
     public QuizView(String category) {
-        currentCategory = category; // Zapisanie aktualnej kategorii
-        score = 0;  // Inicjalizacja wyniku na 0
-        questionLabel = new JLabel("" + currentQuestionIndex);  // Etykieta pytania (początkowo pusta)
-        scoreLabel = new JLabel("Wynik: " + score);  // Etykieta z wynikiem
-        answerButtons = new ArrayList<>(); // Lista zawierająca przyciski do odpowiedzi
-        currentQuestionIndex = 0;  // Ustawienie początkowego pytania na pierwsze
+        currentCategory = category; // Store current category
+        score = 0;  // Initialize score to 0
+        questionLabel = new JLabel("" + currentQuestionIndex);  // Question label (empty at the start)
+        scoreLabel = new JLabel("Wynik: " + score);  // Score label
+        answerButtons = new ArrayList<>(); // List with buttons containing answers
+        currentQuestionIndex = 0;  // Set starting question to 0
 
-        // Wybór kategorii pytań w zależności od podanego argumentu (polimorfizm)
+        // Choose the category of questions depending on the argument (polymorphism)
         switch (category) {
             case "Maths" -> currentCategoryQuestions = new Maths();
             case "Geography" -> currentCategoryQuestions = new Geography();
@@ -45,13 +45,13 @@ public class QuizView extends JPanel {
             case "History" -> currentCategoryQuestions = new History();
         }
         
-        // Dodanie indeksów pytań do listy i ich przetasowanie
+        // Add question indexes to list and shuffle them
         for (int i = 0; i < currentCategoryQuestions.getQuestions().size(); i++) {
             shuffledQuestionsIndices.add(i);
         }
-        Collections.shuffle(shuffledQuestionsIndices);  // Tasowanie pytań
+        Collections.shuffle(shuffledQuestionsIndices);  // Shuffle the questions
         
-        // Dodanie elementów do panelu i ustawienie układu siatki
+        // Add elements to panel and set grid layout
         add(questionLabel);
         add(scoreLabel);
 
@@ -60,8 +60,8 @@ public class QuizView extends JPanel {
             answerButtons.add(button);
             add(button);
         }
-        setLayout(new GridLayout(6, 1, 0, 15));  // Ustawienie GridLayout dla przycisków i etykiet
-        // Wywołanie metody do załadowania pierwszego pytania
+        setLayout(new GridLayout(6, 1, 0, 15));  // Set GridLayout for buttons and labels
+        // Call method to load first question
         loadNewQuestion(currentCategoryQuestions);
     }
 
@@ -95,85 +95,85 @@ public class QuizView extends JPanel {
         checkAnswer(questions, answer, buttonId);
     }
 
-    // Metoda do zakończenia quizu
+    // Method for ending the quiz
     private void endQuiz() {
-        chooseCategoryButton = new JButton("Wybierz kategorię");  // Przycisk do wyboru nowej kategorii
-        endScoreLabel = new JLabel("Gratulacje, zdobywasz " + score + " punktów!");  // Wyświetlenie końcowego wyniku
-        setLayout(new GridLayout(12, 1));  // Zmiana układu na więcej wierszy
+        goToMenuButton = new JButton("Wróć do menu");  // Button to return to menu
+        endScoreLabel = new JLabel("Gratulacje, zdobywasz " + score + " punktów!");  // Display end score
+        setLayout(new GridLayout(12, 1));  // Change layout to have more rows
         add(endScoreLabel, 0);
-        add(chooseCategoryButton, 1);
+        add(goToMenuButton, 1);
 
-        // Ukrycie elementów związanych z pytaniami
+        // Hide elements relating to questions
         questionLabel.setVisible(false);
         scoreLabel.setVisible(false);
         for (JButton button : answerButtons) {
             button.setVisible(false);
         }
 
-        // Pobieramy nick użytkownika z views.MenuView
+        // Gets user's nick
         String username = CurrentUser.getInstance().getUser().getUsername();
 
-        // Zapisanie wyniku quizu do odpowiedniego pliku .txt w folderze ./stats
+        // Write quiz's end score to the corresponding .txt file in the ./stats folder
         try {
-            // Określenie ścieżki do pliku
+            // Define the file path
             java.nio.file.Path filePath = java.nio.file.Paths.get(String.format("./stats/%s.txt", currentCategory));
 
-            // Tworzenie treści do zapisania
+            // Create the contents to write
             String content = username + "|" + score + "\n";  // Format: <gracz>|<wynik>
 
-            // Dopisz wynik do pliku, jeśli istnieje, lub utwórz nowy
+            // Append the contents, if the file exists, or create a new one
             java.nio.file.Files.writeString(filePath, content, java.nio.file.StandardOpenOption.CREATE, java.nio.file.StandardOpenOption.APPEND);
         } catch (java.io.IOException e) {
             System.err.println("Błąd podczas zapisywania wyniku do pliku: " + e.getMessage());
         }
 
-        // Obsługa wyboru nowej kategorii po zakończeniu quizu
-        chooseCategoryButton.addActionListener(e -> {
+        // Handle going back to menu after quiz ends
+        goToMenuButton.addActionListener(e -> {
             remove(questionLabel);
             remove(scoreLabel);
             for (JButton button : answerButtons) {
                 remove(button);
             }
-            remove(chooseCategoryButton);
+            remove(goToMenuButton);
             remove(endScoreLabel);
-            MenuView.chooseCat();  // Wywołanie metody do wyboru kategorii
+            MenuView.goToMenu();  // Call method to go to menu
         });
     }
 
-    // Metoda do załadowania nowego pytania
+    // Method for loading new question
     private void loadNewQuestion(Category questions) {
         if (shuffledQuestionsIndices.isEmpty() || currentQuestionIndex >= shuffledQuestionsIndices.size()) {
             questionLabel.setText("Brak pytań do wyświetlenia.");
             return;
         }
         
-        // Pobieranie odpowiedzi i mieszanie ich kolejności
+        // Get answer and shuffle their order
         List<String> answers = new ArrayList<>();
         answers = questions.getAnswers(shuffledQuestionsIndices.get(currentQuestionIndex));
         Collections.shuffle(answers);  // Przetasowanie odpowiedzi
         Logger logger = ReportHandler.getLogger();
         logger.info(currentQuestionIndex + " " + answers);
-        // Ustawienie nowego pytania i odpowiedzi na przyciskach
+        // Set new question and answers on the buttons
         questionLabel.setText("" + (currentQuestionIndex + 1) + ". " + questions.getQuestion(shuffledQuestionsIndices.get(currentQuestionIndex)));
 
-        // Inicjalizacja przycisków do odpowiedzi
+        // Initialize answer buttons
         Integer answerAmount = questions.getAnswers(shuffledQuestionsIndices.get(currentQuestionIndex)).size();
         for (int i = 0; i < defaultAnswerAmount; i++) {
             JButton newButton = answerButtons.get(i);
-            // Gdy jest mniej odpowiedzi niż domyślnie
+            // When there are less answers than implicitly
             if (i > answerAmount-1) {
                 newButton.setVisible(false);
             } else {
-                if (!newButton.isVisible()) { // Jeżeli został wcześniej zmieniony na niewidzialny
+                if (!newButton.isVisible()) { // If has gotten hidden previously
                     newButton.setVisible(true);
                 }
                 newButton.setText(answers.get(i));
                 
-                // Usunięcie poprzednich ActionListenerów
+                // Get rid of previous ActionListeners
                 for (ActionListener al : newButton.getActionListeners()) {
                     newButton.removeActionListener(al);
                 }
-                // Dodanie ActionListenerów do przycisków odpowiedzi
+                // Add ActionListeners to answer buttons
                 final Integer buttonID = i;
                 newButton.addActionListener(e -> {
                     logger.info("Button " + (buttonID + 1) + " clicked!");
@@ -182,29 +182,30 @@ public class QuizView extends JPanel {
             }
         }
 
-        currentQuestionIndex++;  // Zwiększenie licznika pytań
+        currentQuestionIndex++;  // Increment question counter
     }
 
 
-    // Metoda sprawdzająca poprawność odpowiedzi
+    // Method for checking the given answer
     private void checkAnswer(Category questions, String answer, Integer buttonId) {
-        // Wyłączenie przycisków po wyborze odpowiedzi
+        // Disable buttons once an answer has been chosen
         for (JButton button : answerButtons) {
             button.setEnabled(false);
         }
 
-        // Jeśli to nie jest pierwsze pytanie
+        // If it isn't the first question
         if (currentQuestionIndex != 0) {
             final int index = shuffledQuestionsIndices.get(currentQuestionIndex - 1);
-            // Sprawdzenie, czy odpowiedź jest poprawna
-            if (answer.equals(questions.getCorrectAnswers().get(index))) {
-                score++;  // Zwiększenie wyniku
-                scoreLabel.setText("Wynik: " + score);  // Aktualizacja wyniku
 
-                // Zmiana koloru odpowiedniego przycisku na zielony, jeśli odpowiedź jest poprawna
+            // Check if the answer is correct
+            if (answer.equals(questions.getCorrectAnswers().get(index))) {
+                score++;  // Increment score
+                scoreLabel.setText("Wynik: " + score);  // Update current score
+
+                // Change the button's colour to green if the answer is correct
                 answerButtons.get(buttonId).setBackground(new Color(0, 255, 0));
             } else {
-                // Jeśli odpowiedź jest błędna, zaznacz poprawną odpowiedź na zielono
+                // If the answer is incorrect, change the correct button's color to green
                 for (int i = 0; i < questions.getAnswers(index).size(); i++) {
                     JButton button = answerButtons.get(i);
                     if (button.getText().equals(questions.getCorrectAnswers().get(index))) {
@@ -212,7 +213,7 @@ public class QuizView extends JPanel {
                     }
                 }
 
-                // Zmiana koloru przycisku na czerwony, jeśli odpowiedź jest błędna
+                // Change the button's colour to red if the answer is incorrect
                 answerButtons.get(buttonId).setBackground(new Color(255, 0, 0));
             }
         }

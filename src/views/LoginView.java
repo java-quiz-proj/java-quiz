@@ -31,6 +31,7 @@ public class LoginView extends JPanel {
         loginButton = new JButton("Login");
         registerButton = new JButton("Register");
 
+        // add elements to panel
         panel.add(usernameLabel);
         panel.add(usernameField);
         panel.add(passwordLabel);
@@ -38,7 +39,9 @@ public class LoginView extends JPanel {
         panel.add(loginButton);
         panel.add(registerButton);
 
-        loginHandler = new LoginHandler("users.ser");
+        loginHandler = new LoginHandler("users.ser"); // Set loginHandler
+
+        // Bind buttons to actions
         loginButton.addActionListener(e -> handleLogin());
         registerButton.addActionListener(e -> handleRegister());
 
@@ -51,10 +54,10 @@ public class LoginView extends JPanel {
 
         try {
             if (loginHandler.authenticate(username, password)) {
-                // Usuń poprzedni panel logowania
+                // Hide previous login panel
                 panel.setVisible(false);
 
-                // Pokaż quiz
+                // Show menu
                 MenuView menuView = new MenuView(frame);
                 add(menuView);
                 revalidate();
@@ -80,7 +83,7 @@ public class LoginView extends JPanel {
                 JOptionPane.showMessageDialog(this, "Password can't be blank.");
             } else if (!loginHandler.doesUserExist(username)) {
                 loginHandler.addUser(username, password);
-                // automatyczne logowanie po poprawnej rejestracji
+                // Automatic login after successful registration
                 handleLogin();
             } else {
                 logger.warning("Attempted to register with an existing username: " + username);

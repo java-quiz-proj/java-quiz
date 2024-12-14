@@ -8,3 +8,4 @@ nick25|80
 nick26|75
 mik|2
 mik|1
+mik|0

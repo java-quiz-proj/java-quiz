@@ -21,21 +21,21 @@ public class History extends Questions implements Category {
     }
     @Override
     public List<String> getQuestions() {
-        return questions; // Implementacja metody getQuestions
+        return questions; // Implement getQuestions method
     }
 
     @Override
     public String getQuestion(int n) {
-        return questions.get(n); // Uzyskiwanie pytania z listy
+        return questions.get(n); // Get n-th question from the list
     }
 
     @Override
     public List<String> getAnswers(int n) {
-        return answers.get(n); // Uzyskiwanie odpowiedzi 1
+        return answers.get(n); // Get answers to n-th question
     }
 
     @Override
     public List<String> getCorrectAnswers() {
-        return correctAnswers; // Implementacja metody getCorrectAnswers
+        return correctAnswers; // Implement getCorrectAnswers method
     }
 }
