@@ -1,5 +1,8 @@
+package views;
+
 import questions.*;  // Importuje wszystkie klasy z pakietu questions
-import report.*;
+import utils.*;
+import models.*;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -14,7 +17,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
-public class MyPanel extends JPanel {
+public class QuizView extends JPanel {
     private final int defaultAnswerAmount = 4;
     private int score;  // Zmienna przechowująca wynik gracza
     private JLabel questionLabel, scoreLabel, endScoreLabel;  // Etykiety do wyświetlania pytania, wyniku oraz końcowego wyniku
@@ -26,7 +29,7 @@ public class MyPanel extends JPanel {
     private Category currentCategoryQuestions;  // Obiekt zawierający pytania z wybranej kategorii
     private String currentCategory;
 
-    public MyPanel(String category) {
+    public QuizView(String category) {
         currentCategory = category; // Zapisanie aktualnej kategorii
         score = 0;  // Inicjalizacja wyniku na 0
         questionLabel = new JLabel("" + currentQuestionIndex);  // Etykieta pytania (początkowo pusta)
@@ -107,7 +110,7 @@ public class MyPanel extends JPanel {
             button.setVisible(false);
         }
 
-        // Pobieramy nick użytkownika z CategoryView
+        // Pobieramy nick użytkownika z views.MenuView
         String username = CurrentUser.getInstance().getUser().getUsername();
 
         // Zapisanie wyniku quizu do odpowiedniego pliku .txt w folderze ./stats
@@ -133,7 +136,7 @@ public class MyPanel extends JPanel {
             }
             remove(chooseCategoryButton);
             remove(endScoreLabel);
-            CategoryView.chooseCat();  // Wywołanie metody do wyboru kategorii
+            MenuView.chooseCat();  // Wywołanie metody do wyboru kategorii
         });
     }
 

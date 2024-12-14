@@ -1,14 +1,18 @@
+package views;
+
+import models.*;
+
 import javax.swing.*;
 
 import java.awt.*;
 
-public class CategoryView extends JPanel {
+public class MenuView extends JPanel {
     private static JButton animals, maths, history, geography, logout, stats;
     private static JPanel buttonPanel;
     private static JLabel currUser;
     private JFrame frame;
 
-    public CategoryView(JFrame frame){
+    public MenuView(JFrame frame){
         this.frame = frame;
 
         currUser = new JLabel("Zalogowany/a jako: " + CurrentUser.getInstance().getUser().getUsername());
@@ -54,21 +58,21 @@ public class CategoryView extends JPanel {
     }
 
     private void addNewPanel(String cat){
-        MyPanel panel = new MyPanel(cat);
+        QuizView panel = new QuizView(cat);
         buttonPanel.setVisible(false);
         add(panel);
     }
 
     private void showStats() {
-        StatsPanel statsPanel = new StatsPanel();
+        StatsView statsView = new StatsView();
 
         // Hide the button panel (assuming it's the only component in the center)
         buttonPanel.setVisible(false);
 
         // Set the parent layout to BorderLayout (or ensure it uses it)
         //setLayout(new BorderLayout());
-        frame.add(statsPanel);
-        statsPanel.setPreferredSize(new Dimension(600, 400));
+        frame.add(statsView);
+        statsView.setPreferredSize(new Dimension(600, 400));
         frame.revalidate();
         frame.repaint();
     }

@@ -1,7 +1,9 @@
+package views;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import report.ReportHandler;
+import utils.ReportHandler;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -13,7 +15,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class StatsPanel extends JPanel {
+public class StatsView extends JPanel {
     Logger logger = ReportHandler.getLogger();
 
     private List<PlayerStat> stats = new ArrayList<>();  // Kolekcja statystyk graczy
@@ -44,7 +46,7 @@ public class StatsPanel extends JPanel {
         }
     }
 
-    public StatsPanel() {
+    public StatsView() {
         setLayout(new BorderLayout());
 
         // Tytuł panelu
@@ -83,7 +85,7 @@ public class StatsPanel extends JPanel {
         backButton.addActionListener(e -> {
             JPanel parent = (JPanel) getParent();
             setVisible(false);
-            CategoryView.chooseCat();  // Zastąp tym prawidłową metodą wywołania
+            MenuView.chooseCat();  // Zastąp tym prawidłową metodą wywołania
         });
         add(backButton, BorderLayout.SOUTH);
 
