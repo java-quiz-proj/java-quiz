@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class StatsView extends JPanel {
-    Logger logger = ReportHandler.getLogger();
+    private static final Logger logger = ReportHandler.getLogger();
 
     private List<PlayerStat> stats = new ArrayList<>();  // Kolekcja statystyk graczy
 
@@ -83,7 +83,6 @@ public class StatsView extends JPanel {
         // Go back button
         JButton backButton = new JButton("Powrót");
         backButton.addActionListener(e -> {
-            JPanel parent = (JPanel) getParent();
             setVisible(false);
             MenuView.goToMenu();  // Zastąp tym prawidłową metodą wywołania
         });
@@ -95,12 +94,17 @@ public class StatsView extends JPanel {
 
     // Statistics from .txt file as PlayerStat objects
     private void createStatLabels(String category) {
-        // Create a list of players' statistics
-        List<PlayerStat> playerStats = readStats(category);
+        try {
+            // Create a list of players' statistics
+            List<PlayerStat> playerStats = readStats(category);
 
-        // Traverse playerStats list and add results to stats
-        for (PlayerStat stat : playerStats) {
-            stats.add(stat);
+            // Traverse playerStats list and add results to stats
+            for (PlayerStat stat : playerStats) {
+                stats.add(stat);
+            }
+        } catch (Exception e) {
+            logger.severe("Failed to load statistics for category: " + category);
+            JOptionPane.showMessageDialog(this, "Failed to load statistics for " + category, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -221,6 +225,10 @@ public class StatsView extends JPanel {
                 playerStats.add(stat);
             }
         } catch (IOException e) {
+            logger.severe("I/O error occurred while loading users: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            logger.severe("Unexpected error occurred when reading statistics data: " + e.getMessage());
             e.printStackTrace();
         }
 
