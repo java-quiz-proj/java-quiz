@@ -1,7 +1,9 @@
+package views;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import report.ReportHandler;
+import utils.ReportHandler;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -13,20 +15,20 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class StatsPanel extends JPanel {
+public class StatsView extends JPanel {
     Logger logger = ReportHandler.getLogger();
 
     private List<PlayerStat> stats = new ArrayList<>();  // Kolekcja statystyk graczy
 
-    // Panel z etykietami wyników
+    // Panel with score labels
     private JPanel statsPanel;
 
     private JScrollPane scrollPane;
 
-    // Panel z przyciskami lub radio buttonami do wyboru kategorii
+    // Panel with radio buttons for choosing category
     private JPanel categoryPanel;
 
-    // Klasa reprezentująca wynik gracza
+    // Class representing a player's score
     private static class PlayerStat {
         String category;
         String nick;
@@ -44,69 +46,69 @@ public class StatsPanel extends JPanel {
         }
     }
 
-    public StatsPanel() {
+    public StatsView() {
         setLayout(new BorderLayout());
 
-        // Tytuł panelu
+        // Panel title
         JLabel title = new JLabel("Statystyki", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 24));
         add(title, BorderLayout.NORTH);
 
-        // Otrzymanie i wrzucenie statystyk do listy stats
+        // Get and add statistics to the stats list
         createStatLabels("Animals");
         createStatLabels("Geography");
         createStatLabels("History");
         createStatLabels("Maths");
 
-        // Tworzymy panel na radio buttony
+        // Create panel for radio buttons
         createCategoryButtons();
 
-        // Tworzymy panel na statystyki (na razie pusty)
+        // Create panel for stats (empty at first)
         statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
         add(statsPanel, BorderLayout.CENTER);
 
-        // Tworzymy JScrollPane dla przewijanych danych
+        // Create JScrollPane for scrolling through data
         scrollPane = new JScrollPane(statsPanel);
-        scrollPane.setPreferredSize(new Dimension(600, 400));  // Można dostosować rozmiar
+        scrollPane.setPreferredSize(new Dimension(600, 400));  // Can adjust dimensions
         // Ustaw nagłówek JScrollPane
         TitledBorder border = BorderFactory.createTitledBorder("Statistics");
-        border.setTitleFont(new Font("Arial", Font.BOLD, 18)); // Ustaw czcionke nagłówka
+        border.setTitleFont(new Font("Arial", Font.BOLD, 18)); // Set header font
         scrollPane.setBorder(border);
-        // Zmień szybkość scrollowania JScrollPane
+        // Change scroll speed of JScrollPane
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
-        // Dodaj JScrollPane do frame
+        // Add JScrollPane to frame
         add(scrollPane, BorderLayout.CENTER);
 
-        // Przycisk Powrót
+        // Go back button
         JButton backButton = new JButton("Powrót");
         backButton.addActionListener(e -> {
             JPanel parent = (JPanel) getParent();
             setVisible(false);
-            CategoryView.chooseCat();  // Zastąp tym prawidłową metodą wywołania
+            MenuView.goToMenu();  // Zastąp tym prawidłową metodą wywołania
         });
         add(backButton, BorderLayout.SOUTH);
 
-        // Domyślnie wybieramy "Zwierzęta"
+        // Implicitly chooses Animals category
         selectDefaultCategory();
     }
 
-    // Statystyki z pliku .txt w formie obiektów PlayerStat
+    // Statistics from .txt file as PlayerStat objects
     private void createStatLabels(String category) {
-        // Tworzymy listę statystyk graczy
+        // Create a list of players' statistics
         List<PlayerStat> playerStats = readStats(category);
 
-        // Przechodzimy po liście playerStats i dodajemy do stats
+        // Traverse playerStats list and add results to stats
         for (PlayerStat stat : playerStats) {
             stats.add(stat);
         }
     }
 
-    // Tworzymy przyciski (lub radio buttony) do wyboru kategorii
+    // Create radio buttons for choosing category
     private void createCategoryButtons() {
         categoryPanel = new JPanel();
 
-        // Tworzymy grupę radio buttonów
+        // Create a group of radio buttons
         ButtonGroup group = new ButtonGroup();
 
         JRadioButton animalsButton = new JRadioButton("Animals");
@@ -114,66 +116,66 @@ public class StatsPanel extends JPanel {
         JRadioButton historyButton = new JRadioButton("History");
         JRadioButton mathsButton = new JRadioButton("Maths");
 
-        // Dodajemy radio buttony do grupy, by można było wybrać tylko jeden
+        // Add radio buttons to group, so that only one can be chosen
         group.add(animalsButton);
         group.add(geographyButton);
         group.add(historyButton);
         group.add(mathsButton);
 
-        // Dodajemy akcje do przycisków przy użyciu lambd
+        // Add actions to buttons via lambda
         animalsButton.addActionListener(e -> showCategoryStats("Animals"));
         geographyButton.addActionListener(e -> showCategoryStats("Geography"));
         historyButton.addActionListener(e -> showCategoryStats("History"));
         mathsButton.addActionListener(e -> showCategoryStats("Maths"));
 
-        // Dodajemy przyciski do panelu
+        // Add buttons to panel
         categoryPanel.setLayout(new FlowLayout(FlowLayout.LEFT));  // Układ poziomy dla przycisków
         categoryPanel.add(animalsButton);
         categoryPanel.add(geographyButton);
         categoryPanel.add(historyButton);
         categoryPanel.add(mathsButton);
 
-        add(categoryPanel, BorderLayout.NORTH);  // Dodajemy panel z przyciskami tuż pod tytułem
+        add(categoryPanel, BorderLayout.NORTH);  // Add panel with buttons under the header
     }
 
-    // Funkcja do wyświetlania wyników z wybranej kategorii
+    // Method for showing scores for chosen category
     private void showCategoryStats(String category) {
-        statsPanel.removeAll();  // Usuwamy poprzednie dane
+        statsPanel.removeAll();  // Clear previous data
 
-        // Filtrowanie statystyk na podstawie kategorii za pomocą Stream
+        // Filter statistics based on category via Stream
         List<PlayerStat> filteredStats = stats.stream()
                 .filter(stat -> stat.category.equals(category))  // Filtrowanie statystyk według kategorii
                 .collect(Collectors.toList());
 
-        // Wyświetlanie statystyk dla wybranej kategorii
+        // Show statistics for chosen category
         displayCategoryStats(category, filteredStats);
 
-        // Odświeżamy panel
+        // Update panel
         statsPanel.revalidate();
         statsPanel.repaint();
     }
 
-    // Wyświetlanie wyników dla danej kategorii
+    // Show scores for given category
     private void displayCategoryStats(String category, List<PlayerStat> filteredStats) {
-        // Zmień tytuł nagłówka
+        // Change header title
         if (scrollPane.getBorder() instanceof TitledBorder titledBorder) {
             titledBorder.setTitle("Statystyki - " + category);
             scrollPane.repaint();
         }
 
-        // Wpisz w log działanie użytkownika
+        // Write user's actions to log
         logger.info("Użytkownik wybrał kategorię: " + category);
         logger.info("Wyświetlane statystyki: " + filteredStats);
 
-        // Dodajemy etykiety wyników do panelu
+        // Ads scores labels to panel
         for (PlayerStat stat : filteredStats) {
             statsPanel.add(new JLabel(stat.toString()));  // Tworzymy nową etykietę dla każdego wyniku
         }
     }
 
-    // Funkcja do ustawienia domyślnie wybranej kategorii (np. "Animals")
+    // Method for setting the implicitly chosen category (e.g. "Animals")
     private void selectDefaultCategory() {
-        // Pobieramy wszystkie radio buttony z panelu kategorii
+        // Get all radio buttons from categoryPanel
         for (Component comp : categoryPanel.getComponents()) {
             if (comp instanceof JRadioButton) {
                 JRadioButton radioButton = (JRadioButton) comp;

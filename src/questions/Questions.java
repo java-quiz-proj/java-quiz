@@ -14,7 +14,7 @@ public abstract class Questions {
         answers = new ArrayList<>();
     }
 
-    // Metoda do dodawania pytań w klasie
+    // Method to add questions in the class
     protected void addQuestion(String question, String correctAnswer, String... answersList) {
         questions.add(question);
         correctAnswers.add(correctAnswer);
