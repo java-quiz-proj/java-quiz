@@ -3,7 +3,7 @@ package questions;
 import java.util.List;
 
 public class Maths extends Questions implements Category {
-    public Maths() {
+    {
         addQuestion("sin(90 deg) = ?", "1", 
             "1", "~ -1,7", "0", "~ 1,5");
 
@@ -19,6 +19,7 @@ public class Maths extends Questions implements Category {
         addQuestion("Jak wygląda wzór na pole koła?", "pi*r*r", 
             "2*pi*r", "r*r", "pi*r*r", "a*h/2");
     }
+
     @Override
     public List<String> getQuestions() {
         return questions; // Implement getQuestions method

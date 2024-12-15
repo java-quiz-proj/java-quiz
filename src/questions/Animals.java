@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Animals extends Questions implements Category {
 
-    public Animals() {
+   {
         addQuestion("Ile kręgów szyjnych ma żyrafa?", "7",
             "7", "19", "12");
 
@@ -20,6 +20,7 @@ public class Animals extends Questions implements Category {
         addQuestion("Jakie jest największe żyjące zwierzę?", "płetwal błękitny",
             "płetwal błękitny", "żyrafa", "słoń", "rekin olbrzymi");
     }
+
     @Override
     public List<String> getQuestions() {
         return questions; // Implement getQuestions method

@@ -3,7 +3,7 @@ package questions;
 import java.util.List;
 
 public class Geography extends Questions implements Category {
-    public Geography() {
+    {
         addQuestion("Która z tych rzek płynie przez Brazylię?", "Amazonka", 
             "Amazonka", "Nil", "Ganges", "Mississippi");
 
@@ -19,6 +19,7 @@ public class Geography extends Questions implements Category {
         addQuestion("Co jest stolicą Australii?", "Canberra", 
             "Canberra", "Melbourne", "Sydney", "żadna z tych");
     }
+
     @Override
     public List<String> getQuestions() {
         return questions; // Implement getQuestions method
