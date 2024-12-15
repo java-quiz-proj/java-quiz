@@ -16,6 +16,7 @@ public class LoginView extends JPanel {
     private JButton loginButton, registerButton;
     private JPanel panel;
     private LoginHandler loginHandler;
+    private static final Logger logger = ReportHandler.getLogger();
 
     public LoginView(JFrame frame) {
         panel = new JPanel(new GridLayout(3, 2, 5, 5));
@@ -46,6 +47,7 @@ public class LoginView extends JPanel {
         registerButton.addActionListener(e -> handleRegister());
 
         add(panel);
+        logger.info("LoginView added to frame");
     }
 
     private void handleLogin() {
@@ -66,7 +68,6 @@ public class LoginView extends JPanel {
                 JOptionPane.showMessageDialog(this, "Invalid username or password.");
             }
         } catch (Exception ex) {
-            Logger logger = ReportHandler.getLogger();
             logger.severe("Error during login process: " + ex.getMessage());
             JOptionPane.showMessageDialog(this, "An error occurred during login. Please try again.");
         }
@@ -75,8 +76,6 @@ public class LoginView extends JPanel {
     private void handleRegister() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
-
-        Logger logger = ReportHandler.getLogger();
         try {
             if (password.trim().isEmpty()) {
                 logger.warning("Attempted to register with a blank password.");
