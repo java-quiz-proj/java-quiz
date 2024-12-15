@@ -5,7 +5,6 @@ import utils.LoginHandler;
 public class CurrentUser {
     private static CurrentUser instance;
     private LoginHandler.User user;
-    private LoginHandler loginHandler;
 
     private CurrentUser() {}
 
@@ -18,16 +17,11 @@ public class CurrentUser {
     }
 
     // Set the user and utils.LoginHandler instance
-    public void setCurrentUser(LoginHandler.User user, LoginHandler loginHandler) {
+    public void setCurrentUser(LoginHandler.User user) {
         this.user = user;
-        this.loginHandler = loginHandler;
     }
 
     public LoginHandler.User getUser() {
         return user;
-    }
-
-    public LoginHandler getLoginHandler() {
-        return loginHandler;
     }
 }

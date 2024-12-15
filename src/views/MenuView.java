@@ -52,7 +52,7 @@ public class MenuView extends JPanel {
 
         logout.addActionListener(e -> {
             // Logout user
-            CurrentUser.getInstance().setCurrentUser(null, null);
+            CurrentUser.getInstance().setCurrentUser(null);
             // Set view to starting panel
             buttonPanel.setVisible(false);
             LoginView loginView = new LoginView(frame);

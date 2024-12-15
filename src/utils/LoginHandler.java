@@ -147,7 +147,7 @@ public class LoginHandler {
     public boolean authenticate(String username, String password) {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                CurrentUser.getInstance().setCurrentUser(user, this);
+                CurrentUser.getInstance().setCurrentUser(user);
                 return true;
             }
         }
