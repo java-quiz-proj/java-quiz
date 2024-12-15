@@ -105,7 +105,7 @@ public class LoginHandler {
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
 
                 // Serialize users
-                out.writeObject(user);
+                out.writeObject(users);
                 logger.info("User has been serialized: " + user);
 
         } catch (IOException e) {
