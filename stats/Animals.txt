@@ -4,5 +4,4 @@ nick15|4
 nick16|2
 nick23|1
 nick24|5
-ja|3
 mik|4
