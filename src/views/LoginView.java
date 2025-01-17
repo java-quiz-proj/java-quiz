@@ -77,7 +77,10 @@ public class LoginView extends JPanel {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
         try {
-            if (password.trim().isEmpty()) {
+            if (username.trim().length() < 3) {
+                logger.warning("Attempted to register with a username shorter than 3 characters.");
+                JOptionPane.showMessageDialog(this, "Username must contain at least 3 characters.");
+            } else if (password.trim().isEmpty()) {
                 logger.warning("Attempted to register with a blank password.");
                 JOptionPane.showMessageDialog(this, "Password can't be blank.");
             } else if (!loginHandler.doesUserExist(username)) {
