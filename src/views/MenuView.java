@@ -31,11 +31,11 @@ public class MenuView extends JPanel {
             geography = new JButton("Geografia");
 
             // Statistics button
-            stats = new JButton("Stats");
+            stats = new JButton("Statystyki");
             stats.setBackground(new Color(100, 149, 237));
 
             // Logout button
-            logout = new JButton("Logout");
+            logout = new JButton("Wyloguj");
             logout.setBackground(new Color(255, 69, 0));
 
             buttonPanel.add(currUser);

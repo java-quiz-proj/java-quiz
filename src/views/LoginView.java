@@ -23,14 +23,14 @@ public class LoginView extends JPanel {
         panel.setPreferredSize(new Dimension(300, 150));
 
         this.frame = frame;
-        JLabel usernameLabel = new JLabel("Username:");
+        JLabel usernameLabel = new JLabel("Nick:");
         usernameField = new JTextField();
 
-        JLabel passwordLabel = new JLabel("Password:");
+        JLabel passwordLabel = new JLabel("Hasło:");
         passwordField = new JPasswordField();
 
-        loginButton = new JButton("Login");
-        registerButton = new JButton("Register");
+        loginButton = new JButton("Zaloguj");
+        registerButton = new JButton("Zarejestruj");
 
         // add elements to panel
         panel.add(usernameLabel);
@@ -65,11 +65,11 @@ public class LoginView extends JPanel {
                 revalidate();
                 repaint();
             } else {
-                JOptionPane.showMessageDialog(this, "Invalid username or password.");
+                JOptionPane.showMessageDialog(this, "Nieprawidłowy nick lub hasło.");
             }
         } catch (Exception ex) {
             logger.severe("Error during login process: " + ex.getMessage());
-            JOptionPane.showMessageDialog(this, "An error occurred during login. Please try again.");
+            JOptionPane.showMessageDialog(this, "Coś poszło nie taj. Spróbuj ponownie.");
         }
     }
 
@@ -79,21 +79,21 @@ public class LoginView extends JPanel {
         try {
             if (username.trim().length() < 3) {
                 logger.warning("Attempted to register with a username shorter than 3 characters.");
-                JOptionPane.showMessageDialog(this, "Username must contain at least 3 characters.");
+                JOptionPane.showMessageDialog(this, "Nick musi składać się z przynajmniej trzech liter.");
             } else if (password.trim().isEmpty()) {
                 logger.warning("Attempted to register with a blank password.");
-                JOptionPane.showMessageDialog(this, "Password can't be blank.");
+                JOptionPane.showMessageDialog(this, "Hasło nie może być puste.");
             } else if (!loginHandler.doesUserExist(username)) {
                 loginHandler.addUser(username, password);
                 // Automatic login after successful registration
                 handleLogin();
             } else {
                 logger.warning("Attempted to register with an existing username: " + username);
-                JOptionPane.showMessageDialog(this, "User already exists.");
+                JOptionPane.showMessageDialog(this, "Użytkownik o takim nicku już istnieje.");
             }
         } catch (Exception ex) {
             logger.severe("Error during registration process: " + ex.getMessage());
-            JOptionPane.showMessageDialog(this, "An error occurred during registration. Please try again.");
+            JOptionPane.showMessageDialog(this, "Coś poszło nie tak. Spróbuj ponownie.");
         }
     }
 }
