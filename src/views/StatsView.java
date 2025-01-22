@@ -115,10 +115,10 @@ public class StatsView extends JPanel {
         // Create a group of radio buttons
         ButtonGroup group = new ButtonGroup();
 
-        JRadioButton animalsButton = new JRadioButton("Animals");
-        JRadioButton geographyButton = new JRadioButton("Geography");
-        JRadioButton historyButton = new JRadioButton("History");
-        JRadioButton mathsButton = new JRadioButton("Maths");
+        JRadioButton animalsButton = new JRadioButton("Zwierzęta");
+        JRadioButton geographyButton = new JRadioButton("Geografia");
+        JRadioButton historyButton = new JRadioButton("Historia");
+        JRadioButton mathsButton = new JRadioButton("Matematyka");
 
         // Add radio buttons to group, so that only one can be chosen
         group.add(animalsButton);
@@ -183,7 +183,7 @@ public class StatsView extends JPanel {
         for (Component comp : categoryPanel.getComponents()) {
             if (comp instanceof JRadioButton) {
                 JRadioButton radioButton = (JRadioButton) comp;
-                if (radioButton.getText().equals("Animals")) {
+                if (radioButton.getText().equals("Zwierzęta")) {
                     radioButton.setSelected(true);  // Ustawiamy "Animals" jako domyślnie wybraną kategorię
                     showCategoryStats("Animals");  // Wyświetlamy dane dla kategorii "Animals"
                     break;
