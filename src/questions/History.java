@@ -3,7 +3,7 @@ package questions;
 import java.util.List;
 
 public class History extends Questions implements Category {
-    public History() {
+    {
         addQuestion("Kiedy pierwszy człowiek wylądował na Księżycu?", "20 lipca 1969", 
             "20 lipca 1969", "19 lipca 1971", "21 lipca 1968", "21 lipca 1970");
 
@@ -19,23 +19,24 @@ public class History extends Questions implements Category {
         addQuestion("Kto był pierwszym królem Polski?", "Bolesław Chrobry", 
             "Bolesław Chrobry", "Mieszko I", "Mieszko II", "Władysław Jagiełło");
     }
+
     @Override
     public List<String> getQuestions() {
-        return questions; // Implementacja metody getQuestions
+        return questions; // Implement getQuestions method
     }
 
     @Override
     public String getQuestion(int n) {
-        return questions.get(n); // Uzyskiwanie pytania z listy
+        return questions.get(n); // Get n-th question from the list
     }
 
     @Override
     public List<String> getAnswers(int n) {
-        return answers.get(n); // Uzyskiwanie odpowiedzi 1
+        return answers.get(n); // Get answers to n-th question
     }
 
     @Override
     public List<String> getCorrectAnswers() {
-        return correctAnswers; // Implementacja metody getCorrectAnswers
+        return correctAnswers; // Implement getCorrectAnswers method
     }
 }
