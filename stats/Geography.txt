@@ -7,3 +7,4 @@ nick20|0
 nick27|6
 nick28|5
 mik2|4
+mik|0
